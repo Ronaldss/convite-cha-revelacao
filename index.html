@@ -212,15 +212,17 @@
         <button class="panel-close" type="button" data-close-panel aria-label="Fechar painel">
           x
         </button>
-        <p class="panel-kicker">Localização</p>
+        <p class="panel-kicker">Local do evento</p>
         <h2>Como chegar</h2>
         <p class="panel-copy">
-          Toque no botão abaixo para abrir o trajeto diretamente no Google Maps.
+          Abra o ponto exato no mapa e siga direto para o endereço do evento.
         </p>
         <div class="panel-block">
-          <strong data-event-location>Rancho Sao Pedro - Esperanca, PB</strong>
-          <p data-event-date>28 | Marco | 2026</p>
-          <p data-event-time>as 16h</p>
+          <strong data-event-location>R. Fortaleza, 63 - Cidade Universitária, Maceió - AL, 57072-313</strong>
+          <p class="location-coordinates">
+            <span>Lat <strong data-event-latitude>-9.6498487</strong></span>
+            <span>Long <strong data-event-longitude>-35.7089492</strong></span>
+          </p>
         </div>
         <a
           class="panel-link"
@@ -230,6 +232,12 @@
           rel="noreferrer"
           >Abrir no Google Maps</a
         >
+        <button class="panel-link panel-link-secondary" id="copy-location-button" type="button">
+          Copiar localização
+        </button>
+        <p class="panel-copy-feedback" id="copy-location-feedback" hidden>
+          Localização copiada para compartilhar.
+        </p>
       </div>
     </section>
 
@@ -238,7 +246,7 @@
         <button class="panel-close" type="button" data-close-panel aria-label="Fechar painel">
           x
         </button>
-        <p class="panel-kicker">Confirmação de presença</p>
+        <p class="panel-kicker">Presença</p>
         <h2>Confirme sua presença</h2>
         <form class="rsvp-form" id="rsvp-form">
           <label class="field">
@@ -276,7 +284,7 @@
         <button class="panel-close" type="button" data-close-panel aria-label="Fechar painel">
           x
         </button>
-        <p class="panel-kicker">Sugestão de presente</p>
+        <p class="panel-kicker">Presentes</p>
         <h2>Dois itens que ajudam bastante</h2>
         <p class="panel-copy">
           Se desejar presentear, você pode escolher qualquer uma dessas opções.
@@ -299,7 +307,7 @@
             </div>
             <div class="gift-content">
               <p class="gift-title">Fralda</p>
-              <p class="gift-description">Pode ser de qualquer marca e no tamanho P ou M.</p>
+              <p class="gift-description">Tamanho P ou M.</p>
             </div>
           </article>
 
@@ -327,15 +335,16 @@
     </section>
 
     <section class="panel-shell" id="vote-panel" aria-hidden="true">
-      <div class="panel-card">
+      <div class="panel-card panel-card-vote">
         <button class="panel-close" type="button" data-close-panel aria-label="Fechar painel">
           x
         </button>
-        <p class="panel-kicker">Menina ou Menino</p>
+        <p class="panel-kicker">Palpite</p>
         <h2>Deixe seu palpite</h2>
         <p class="panel-copy">
-          Depois da confirmação, escolha um lado.
+          Este é o momento mais especial do convite. Escolha um lado e faça a energia ganhar cor.
         </p>
+        <p class="vote-ribbon">Um voto por convite • ao vivo • cheio de cor</p>
 
         <div class="vote-lock" id="vote-lock">
           <p class="vote-lock-title">Aguardando confirmação</p>
@@ -346,28 +355,59 @@
         <div class="vote-panel is-locked" id="vote-panel-content" aria-disabled="true">
           <div class="vote-options">
             <button class="vote-option vote-option-girl" type="button" data-vote="menina">
-              <span class="vote-title">Menina</span>
+              <span class="vote-option-aura"></span>
+              <span class="vote-option-badge">Rosa</span>
+              <span class="vote-title">Helena</span>
               <span class="vote-subtitle">Faz o rosa florescer</span>
             </button>
             <button class="vote-option vote-option-boy" type="button" data-vote="menino">
-              <span class="vote-title">Menino</span>
-              <span class="vote-subtitle">Faz o azul ganhar vida</span>
+              <span class="vote-option-aura"></span>
+              <span class="vote-option-badge">Azul</span>
+              <span class="vote-title">Heitor</span>
+              <span class="vote-subtitle">Faz o azul ganhar</span>
             </button>
           </div>
 
           <div class="vote-stage" id="vote-stage">
+            <div class="vote-stage-wash vote-stage-wash-girl"></div>
+            <div class="vote-stage-wash vote-stage-wash-boy"></div>
             <div class="vote-energy vote-energy-girl"></div>
             <div class="vote-energy vote-energy-boy"></div>
+            <div class="vote-particles" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
             <div class="vote-core">
-              <p class="vote-core-label">Palpites registrados nesta experiencia</p>
+              <p class="vote-core-label">Palpites registrados nesta experiência</p>
+              <div class="vote-orb-shell" aria-hidden="true">
+                <div class="vote-orb vote-orb-main"></div>
+                <div class="vote-orb vote-orb-side vote-orb-side-left"></div>
+                <div class="vote-orb vote-orb-side vote-orb-side-right"></div>
+              </div>
               <div class="vote-score">
-                <div>
-                  <span>Menina</span>
+                <div class="vote-score-card vote-score-card-girl">
+                  <span>Helena</span>
                   <strong id="girl-count">0</strong>
+                  <div class="vote-meter">
+                    <span class="vote-meter-fill vote-meter-fill-girl" id="girl-meter-fill"></span>
+                  </div>
                 </div>
-                <div>
-                  <span>Menino</span>
+                <div class="vote-score-card vote-score-card-boy">
+                  <span>Heitor</span>
                   <strong id="boy-count">0</strong>
+                  <div class="vote-meter">
+                    <span class="vote-meter-fill vote-meter-fill-boy" id="boy-meter-fill"></span>
+                  </div>
                 </div>
               </div>
               <p class="vote-selected" id="vote-selected">
@@ -376,7 +416,10 @@
             </div>
           </div>
 
-          <div class="vote-tags" id="vote-tags"></div>
+          <div class="vote-history">
+            <p class="vote-history-title">Últimos palpites</p>
+            <div class="vote-tags" id="vote-tags"></div>
+          </div>
         </div>
       </div>
     </section>

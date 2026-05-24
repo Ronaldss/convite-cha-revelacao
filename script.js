@@ -27,6 +27,19 @@ const fallbackConfig = {
 
 const config = window.CONVITE_CONFIG || fallbackConfig;
 
+config.event = {
+  ...config.event,
+  location:
+    config.event?.location || "R. Fortaleza, 63 - Cidade Universitária, Maceió - AL, 57072-313",
+  coordinates: config.event?.coordinates || {
+    latitude: "-9.6498487",
+    longitude: "-35.7089492",
+  },
+  googleMapsUrl:
+    config.event?.googleMapsUrl ||
+    "https://www.google.com/maps/search/?api=1&query=-9.6498487,-35.7089492",
+};
+
 const storageKeys = {
   guest: "convite-cha-guest",
   votes: "convite-cha-votes",
@@ -40,6 +53,8 @@ const eventNodes = {
   location: [...document.querySelectorAll("[data-event-location]")],
   locationLine1: [...document.querySelectorAll("[data-event-location-line-1]")],
   locationLine2: [...document.querySelectorAll("[data-event-location-line-2]")],
+  latitude: [...document.querySelectorAll("[data-event-latitude]")],
+  longitude: [...document.querySelectorAll("[data-event-longitude]")],
   mapLink: [...document.querySelectorAll("[data-map-link]")],
 };
 
@@ -50,6 +65,8 @@ const ui = {
   voteModeNote: document.getElementById("vote-mode-note"),
   voteSyncNote: document.getElementById("vote-sync-note"),
   voteStatusMessage: document.getElementById("vote-status-message"),
+  copyLocationButton: document.getElementById("copy-location-button"),
+  copyLocationFeedback: document.getElementById("copy-location-feedback"),
   rsvpForm: document.getElementById("rsvp-form"),
   guestNameInput: document.getElementById("guest-name"),
   guestNameError: document.getElementById("guest-name-error"),
@@ -61,6 +78,8 @@ const ui = {
   voteSelected: document.getElementById("vote-selected"),
   girlCount: document.getElementById("girl-count"),
   boyCount: document.getElementById("boy-count"),
+  girlMeterFill: document.getElementById("girl-meter-fill"),
+  boyMeterFill: document.getElementById("boy-meter-fill"),
   voteTags: document.getElementById("vote-tags"),
 };
 
@@ -79,12 +98,37 @@ bootstrap().catch((error) => {
 async function bootstrap() {
   initEventDetails();
   initPanels();
+  initLocationSharing();
   initGiftRotation();
   initPosterMotion();
   initModeNotes();
   await initPresenceFlow();
   await initVoting();
   initVoteSync();
+}
+
+function initLocationSharing() {
+  if (!ui.copyLocationButton) return;
+
+  ui.copyLocationButton.addEventListener("click", async () => {
+    const locationText = buildShareableLocation();
+
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(locationText);
+      } else {
+        copyTextFallback(locationText);
+      }
+      showCopyLocationFeedback("Localização copiada para compartilhar.");
+    } catch {
+      try {
+        copyTextFallback(locationText);
+        showCopyLocationFeedback("Localização copiada para compartilhar.");
+      } catch {
+        showCopyLocationFeedback("Não foi possível copiar agora.");
+      }
+    }
+  });
 }
 
 function initEventDetails() {
@@ -112,9 +156,52 @@ function initEventDetails() {
   eventNodes.locationLine2.forEach((node) => {
     node.textContent = locationLines.line2;
   });
+  eventNodes.latitude.forEach((node) => {
+    node.textContent = event.coordinates?.latitude || "";
+  });
+  eventNodes.longitude.forEach((node) => {
+    node.textContent = event.coordinates?.longitude || "";
+  });
   eventNodes.mapLink.forEach((node) => {
     node.href = event.googleMapsUrl;
   });
+}
+
+function buildShareableLocation() {
+  const { location, coordinates } = config.event;
+  const latitude = coordinates?.latitude || "";
+  const longitude = coordinates?.longitude || "";
+
+  return [
+    location,
+    latitude && longitude ? `Coordenadas: ${latitude}, ${longitude}` : "",
+    config.event.googleMapsUrl || "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+function copyTextFallback(text) {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.setAttribute("readonly", "");
+  textArea.style.position = "absolute";
+  textArea.style.left = "-9999px";
+  document.body.appendChild(textArea);
+  textArea.select();
+  document.execCommand("copy");
+  document.body.removeChild(textArea);
+}
+
+function showCopyLocationFeedback(message) {
+  if (!ui.copyLocationFeedback) return;
+
+  ui.copyLocationFeedback.textContent = message;
+  ui.copyLocationFeedback.hidden = false;
+  window.clearTimeout(showCopyLocationFeedback.timeoutId);
+  showCopyLocationFeedback.timeoutId = window.setTimeout(() => {
+    ui.copyLocationFeedback.hidden = true;
+  }, 2200);
 }
 
 function initPanels() {
@@ -341,8 +428,8 @@ async function initVoting() {
       ui.voteStage.dataset.theme = vote === "menina" ? "girl" : "boy";
       ui.voteSelected.textContent =
         vote === "menina"
-          ? `${guestName} fez o rosa florescer nesta experiencia.`
-          : `${guestName} fez o azul ganhar vida nesta experiencia.`;
+          ? `${guestName} escolheu menina e fez o rosa acender nesta experiência.`
+          : `${guestName} escolheu menino e fez o azul ganhar brilho nesta experiência.`;
       hideVoteStatusMessage();
 
       if (state.guestContext) {
@@ -380,12 +467,19 @@ function renderVotes(votes) {
   const normalizedVotes = getLatestVotesByGuest(votes);
   const girls = normalizedVotes.filter((entry) => entry.vote === "menina").length;
   const boys = normalizedVotes.filter((entry) => entry.vote === "menino").length;
+  const total = girls + boys;
+  const girlPercentage = total ? (girls / total) * 100 : 0;
+  const boyPercentage = total ? (boys / total) * 100 : 0;
 
   ui.girlCount.textContent = String(girls);
   ui.boyCount.textContent = String(boys);
+  ui.girlMeterFill.style.width = `${girlPercentage}%`;
+  ui.boyMeterFill.style.width = `${boyPercentage}%`;
   ui.voteTags.innerHTML = "";
 
   if (!normalizedVotes.length) {
+    ui.voteStage.dataset.theme = "";
+    ui.voteSelected.textContent = "Escolha um lado para fazer o placar ganhar cor, brilho e movimento.";
     const emptyTag = document.createElement("span");
     emptyTag.className = "vote-tag";
     emptyTag.textContent = "Nenhum palpite registrado ainda";
@@ -421,7 +515,6 @@ function lockVotingWithExistingVote(guestContext) {
   ui.voteLock.hidden = false;
   ui.votePanel.classList.add("is-locked");
   ui.votePanel.setAttribute("aria-disabled", "true");
-  ui.voteLock.querySelector(".vote-lock-title").textContent = "Voto ja registrado";
   ui.voteLock.querySelector(".vote-lock-title").textContent = "Voto já registrado";
   ui.voteLock.querySelector(
     ".vote-lock-copy",

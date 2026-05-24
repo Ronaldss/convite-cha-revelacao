@@ -5,7 +5,7 @@ const projectDir = process.cwd();
 const sourcePath = path.join(projectDir, "convidados-normalizados.csv");
 const outputPath = path.join(projectDir, "links-convidados.csv");
 
-const baseUrl = "https://SEU-PROJETO.vercel.app/";
+const baseUrl = "https://convite-cha-revelacao.vercel.app/";
 
 function parseCsvLine(line) {
   const result = [];

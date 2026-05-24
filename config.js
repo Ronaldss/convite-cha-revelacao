@@ -5,9 +5,13 @@ window.CONVITE_CONFIG = {
     weekday: "SABADO",
     dateLabel: "DIA",
     location:
-      "Rua Fortaleza, Qd. J, N.1 - Loteamento Sao Caetano, Cidade Universitaria",
+      "R. Fortaleza, 63 - Cidade Universitaria, Maceio - AL, 57072-313",
+    coordinates: {
+      latitude: "-9.6498487",
+      longitude: "-35.7089492",
+    },
     googleMapsUrl:
-      "https://maps.google.com/?q=Rua+Fortaleza+Qd+J+N+1+Loteamento+Sao+Caetano+Cidade+Universitaria",
+      "https://www.google.com/maps/search/?api=1&query=-9.6498487,-35.7089492",
   },
   app: {
     storageMode: "supabase",
@@ -37,6 +41,11 @@ window.CONVITE_CONFIG = {
       "Filipe e esposa",
       "Mariana",
       "Juliane",
+      "Usuário secreto 01",
+      "Usuário secreto 02",
+      "Usuário secreto 03",
+      "Usuário secreto 04",
+      "Usuário secreto 05",
     ],
   },
   supabase: {
