@@ -72,6 +72,7 @@ const ui = {
   confirmedName: document.getElementById("confirmed-name"),
   voteLock: document.getElementById("vote-lock"),
   votePanel: document.getElementById("vote-panel-content"),
+  voteOptions: document.getElementById("vote-options"),
   voteStage: document.getElementById("vote-stage"),
   voteSelected: document.getElementById("vote-selected"),
   girlCount: document.getElementById("girl-count"),
@@ -457,6 +458,7 @@ function unlockVoting(guestName) {
   ui.confirmedName.textContent = guestName;
   ui.voteLock.hidden = true;
   ui.votePanel.classList.remove("is-locked");
+  ui.voteOptions.classList.remove("is-disabled");
   ui.votePanel.setAttribute("aria-disabled", "false");
   hideVoteStatusMessage();
 }
@@ -512,6 +514,7 @@ function lockVotingWithExistingVote(guestContext) {
   ui.confirmedName.textContent = voterName;
   ui.voteLock.hidden = false;
   ui.votePanel.classList.add("is-locked");
+  ui.voteOptions.classList.add("is-disabled");
   ui.votePanel.setAttribute("aria-disabled", "true");
   ui.voteLock.querySelector(".vote-lock-title").textContent = "Voto já registrado";
   ui.voteLock.querySelector(
