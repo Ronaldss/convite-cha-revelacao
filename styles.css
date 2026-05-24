@@ -1097,7 +1097,9 @@ h2 {
 
 .panel-card-vote {
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   background:
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.74), transparent 28%),
     radial-gradient(circle at top right, rgba(255, 244, 248, 0.5), transparent 24%),
@@ -1697,6 +1699,7 @@ h2 {
 .vote-history {
   position: relative;
   z-index: 2;
+  margin-bottom: 1rem;
   padding: 1rem 1rem 0;
   border-radius: 24px;
   background: rgba(255, 255, 255, 0.76);
@@ -1719,7 +1722,7 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   gap: 0.7rem;
-  max-height: 11rem;
+  max-height: 9.5rem;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 0 0.1rem 0.55rem 0;
@@ -2078,7 +2081,7 @@ h2 {
   }
 
   .vote-tags {
-    max-height: 9.5rem;
+    max-height: 8rem;
   }
 
   .cover-note {
@@ -2162,7 +2165,7 @@ h2 {
   }
 
   .vote-tags {
-    max-height: 8.4rem;
+    max-height: 7rem;
   }
 
   .basket-scene {
