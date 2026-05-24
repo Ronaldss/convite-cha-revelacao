@@ -823,8 +823,8 @@ h2 {
 
 .basket-scene {
   position: relative;
-  width: clamp(5rem, 19vw, 6.6rem);
-  height: clamp(5.7rem, 21vw, 7.4rem);
+  width: clamp(6.2rem, 24vw, 8.2rem);
+  height: clamp(7rem, 28vw, 9.2rem);
   transform-origin: left bottom;
   animation: sway 6.5s ease-in-out infinite;
 }
@@ -2102,7 +2102,9 @@ h2 {
   }
 
   .basket-scene {
-    transform: scale(0.94);
+    width: 7.5rem;
+    height: 8.8rem;
+    transform: scale(1.02) translateX(-0.15rem);
   }
 
   .big-bear {
@@ -2181,7 +2183,9 @@ h2 {
   }
 
   .basket-scene {
-    transform: scale(0.88);
+    width: 7rem;
+    height: 8.2rem;
+    transform: scale(1.01) translateX(-0.2rem);
   }
 
   .big-bear {
