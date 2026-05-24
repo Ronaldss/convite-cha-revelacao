@@ -829,6 +829,13 @@ h2 {
   animation: sway 6.5s ease-in-out infinite;
 }
 
+.basket-scene-image {
+  display: block;
+  object-fit: contain;
+  object-position: left bottom;
+  filter: drop-shadow(0 10px 20px rgba(148, 104, 75, 0.08));
+}
+
 .basket-balloon-one {
   width: 2.45rem;
   height: 2.85rem;
