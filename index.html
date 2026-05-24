@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chá Revelação</title>
+    <meta
+      name="description"
+      content="Convite interativo de chá revelação com localização, confirmação de presença e sugestão de presente."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-left"></div>
+    <div class="ambient ambient-right"></div>
+
+    <main class="invite-page">
+      <section class="invite-card" id="convite">
+        <div class="cover-shell">
+          <div class="cover-sparkles" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          <div class="cover-cloud cover-cloud-left" aria-hidden="true"></div>
+          <div class="cover-cloud cover-cloud-right" aria-hidden="true"></div>
+
+          <div class="cover-arch">
+            <div class="cover-balloon-burst" aria-hidden="true">
+              <span class="burst-balloon burst-balloon-one"></span>
+              <span class="burst-balloon burst-balloon-two"></span>
+              <span class="burst-balloon burst-balloon-three"></span>
+              <span class="burst-balloon burst-balloon-four"></span>
+              <span class="burst-balloon burst-balloon-five"></span>
+              <span class="burst-balloon burst-balloon-six"></span>
+              <span class="burst-balloon burst-balloon-seven"></span>
+              <span class="burst-balloon burst-balloon-eight"></span>
+              <div class="mini-bear mini-bear-hanging">
+                <span class="mini-bear-head"></span>
+                <span class="mini-bear-body"></span>
+                <span class="mini-bear-arm mini-bear-arm-left"></span>
+                <span class="mini-bear-arm mini-bear-arm-right"></span>
+                <span class="mini-bear-leg mini-bear-leg-left"></span>
+                <span class="mini-bear-leg mini-bear-leg-right"></span>
+                <span class="mini-bear-face mini-bear-face-hanging"></span>
+              </div>
+            </div>
+
+            <div class="cover-content">
+              <p class="cover-kicker">CHÁ REVELAÇÃO</p>
+              <div class="cover-copy-block">
+                <p class="cover-copy">
+                  Mamãe e papai estão muito felizes com a minha chegada, e
+                  ansiosos para saber o que serei.
+                </p>
+                <p class="cover-bridge">VAMOS JUNTOS DESCOBRIR QUEM SOU EU?</p>
+              </div>
+
+              <p class="cover-name-line">
+                <span class="cover-name cover-name-left">Heitor</span>
+                <span class="cover-name-divider">Ou</span>
+                <span class="cover-name cover-name-right">Helena</span>
+              </p>
+
+              <div class="cover-event-block">
+                <div class="cover-event">
+                  <div class="cover-event-col">
+                    <span class="cover-event-label" data-event-weekday>DOMINGO</span>
+                  </div>
+                  <div class="cover-event-separator"></div>
+                  <div class="cover-event-col">
+                    <span class="cover-event-label" data-event-date-label>DIA</span>
+                    <strong data-event-date>05/10</strong>
+                  </div>
+                  <div class="cover-event-separator"></div>
+                  <div class="cover-event-col">
+                    <strong data-event-time>15:00H</strong>
+                  </div>
+                </div>
+                <div class="cover-location-block">
+                  <span class="cover-location-kicker">Local do evento</span>
+                  <p class="cover-location cover-location-line-1" data-event-location-line-1>
+                    Rua Fortaleza, Qd. J, N.1
+                  </p>
+                  <p class="cover-location cover-location-line-2" data-event-location-line-2>
+                    Loteamento Sao Caetano, Cidade Universitaria
+                  </p>
+                </div>
+              </div>
+
+              <div class="cover-actions" aria-label="Acoes principais do convite">
+                <button class="cover-action" type="button" data-open-panel="location-panel">
+                  <span class="cover-action-icon">
+                    <svg
+                      class="cover-action-svg"
+                      viewBox="0 0 64 64"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <circle class="icon-circle" cx="32" cy="32" r="30" />
+                      <path
+                        class="icon-stroke"
+                        d="M32 14.8c-7.7 0-13.8 5.9-13.8 13.5 0 10.3 11.7 21.2 12.2 21.7.9.8 2.2.8 3.1 0 .5-.5 12.2-11.4 12.2-21.7 0-7.6-6.1-13.5-13.7-13.5Z"
+                      />
+                      <circle class="icon-stroke" cx="32" cy="27.8" r="4.6" />
+                      <path class="icon-stroke" d="M21.8 48.4c2.4 1.8 5.8 2.8 10.2 2.8 4.4 0 7.8-1 10.2-2.8" />
+                    </svg>
+                  </span>
+                  <span class="cover-action-label">Localização</span>
+                </button>
+                <button class="cover-action" type="button" data-open-panel="rsvp-panel">
+                  <span class="cover-action-icon">
+                    <svg
+                      class="cover-action-svg"
+                      viewBox="0 0 64 64"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <circle class="icon-circle" cx="32" cy="32" r="30" />
+                      <path
+                        class="icon-stroke"
+                        d="M32 16.4c-9.7 0-17.4 7.1-17.4 15.9 0 4.4 1.9 8.3 5 11.1l-1.4 7.2 7-3.7c2 .6 4.2.9 6.8.9 9.7 0 17.4-7.1 17.4-15.9S41.7 16.4 32 16.4Z"
+                      />
+                      <path
+                        class="icon-stroke"
+                        d="M25.2 27.6c.4-.8 1-.9 1.4-.9.4 0 .7 0 1 .8l1.2 3c.1.3.1.7-.1 1-.3.4-.6.8-1 1.1.4.9 1.3 2 2.4 3 .9.7 2.1 1.5 3 1.8.4-.4.8-1 1.2-1.4.3-.4.7-.5 1.1-.3l3.5 1.6c.4.2.6.4.7.7.1.4 0 1.8-.9 2.9-.8 1-2.1 1.4-3.2 1.4-1.6 0-4.1-.6-6.7-2.5-3.4-2.4-5.7-6-6.2-9.1-.2-1.3 0-2.3.6-3.1Z"
+                      />
+                    </svg>
+                  </span>
+                  <span class="cover-action-label">Confirmar Presença</span>
+                </button>
+                <button class="cover-action" type="button" data-open-panel="gift-panel">
+                  <span class="cover-action-icon">
+                    <svg
+                      class="cover-action-svg"
+                      viewBox="0 0 64 64"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <circle class="icon-circle" cx="32" cy="32" r="30" />
+                      <rect class="icon-stroke" x="19" y="27" width="26" height="20" rx="1.8" />
+                      <path class="icon-stroke" d="M19 27h26" />
+                      <path class="icon-stroke" d="M32 27v20" />
+                      <path
+                        class="icon-stroke"
+                        d="M31.8 27c-1.4-4.3-5.4-8.7-8.9-7.1-2 1-1.8 4 .5 5.2 2.2 1.1 5.7 1.2 8.4 1.2Z"
+                      />
+                      <path
+                        class="icon-stroke"
+                        d="M32.2 27c1.4-4.3 5.4-8.7 8.9-7.1 2 1 1.8 4-.5 5.2-2.2 1.1-5.7 1.2-8.4 1.2Z"
+                      />
+                    </svg>
+                  </span>
+                  <span class="cover-action-label">Sugestão de Presente</span>
+                </button>
+              </div>
+
+              <p class="cover-note">
+                Para a festa ficar ainda mais linda,
+                <span>venha com cores neutras</span>
+              </p>
+
+              <div class="cover-palette" aria-label="Paleta neutra sugerida">
+                <span class="cover-swatch cover-swatch-one"></span>
+                <span class="cover-swatch cover-swatch-two"></span>
+                <span class="cover-swatch cover-swatch-three"></span>
+                <span class="cover-swatch cover-swatch-four"></span>
+              </div>
+
+              <div class="cover-bottom" aria-hidden="true">
+                <div class="basket-scene">
+                  <span class="basket-balloon basket-balloon-one"></span>
+                  <span class="basket-balloon basket-balloon-two"></span>
+                  <span class="basket-balloon basket-balloon-three"></span>
+                  <div class="basket-body"></div>
+                  <div class="mini-bear mini-bear-basket">
+                    <span class="mini-bear-head"></span>
+                    <span class="mini-bear-body"></span>
+                    <span class="mini-bear-face"></span>
+                  </div>
+                </div>
+
+                <div class="big-bear">
+                  <span class="big-bear-head"></span>
+                  <span class="big-bear-body"></span>
+                  <span class="big-bear-arm big-bear-arm-left"></span>
+                  <span class="big-bear-arm big-bear-arm-right"></span>
+                  <span class="big-bear-leg big-bear-leg-left"></span>
+                  <span class="big-bear-leg big-bear-leg-right"></span>
+                  <span class="big-bear-feet"></span>
+                  <span class="big-bear-bow"></span>
+                  <span class="big-bear-face"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="panel-shell" id="location-panel" aria-hidden="true">
+      <div class="panel-card">
+        <button class="panel-close" type="button" data-close-panel aria-label="Fechar painel">
+          x
+        </button>
+        <p class="panel-kicker">Localização</p>
+        <h2>Como chegar</h2>
+        <p class="panel-copy">
+          Toque no botão abaixo para abrir o trajeto diretamente no Google Maps.
+        </p>
+        <div class="panel-block">
+          <strong data-event-location>Rancho Sao Pedro - Esperanca, PB</strong>
+          <p data-event-date>28 | Marco | 2026</p>
+          <p data-event-time>as 16h</p>
+        </div>
+        <a
+          class="panel-link"
+          data-map-link
+          href="https://maps.google.com"
+          target="_blank"
+          rel="noreferrer"
+          >Abrir no Google Maps</a
+        >
+      </div>
+    </section>
+
+    <section class="panel-shell" id="rsvp-panel" aria-hidden="true">
+      <div class="panel-card">
+        <button class="panel-close" type="button" data-close-panel aria-label="Fechar painel">
+          x
+        </button>
+        <p class="panel-kicker">Confirmação de presença</p>
+        <h2>Confirme sua presença</h2>
+        <form class="rsvp-form" id="rsvp-form">
+          <label class="field">
+            <span>Seu nome</span>
+            <input
+              id="guest-name"
+              name="guest-name"
+              type="text"
+              maxlength="60"
+              placeholder="Digite seu nome"
+              required
+            />
+          </label>
+          <p class="field-error" id="guest-name-error" hidden>
+            Este nome não foi encontrado na lista de convidados.
+          </p>
+          <button class="panel-link panel-link-button" type="submit">
+            Confirmar presença
+          </button>
+        </form>
+        <div class="confirmation-panel" id="confirmation-panel" hidden>
+          <p class="confirmation-title">Presença confirmada</p>
+          <p class="confirmation-copy">
+            <span id="confirmed-name"></span>, sua participação foi registrada.
+          </p>
+          <button class="vote-entry" type="button" data-open-panel="vote-panel">
+            Ir para Menina ou Menino
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel-shell" id="gift-panel" aria-hidden="true">
+      <div class="panel-card">
+        <button class="panel-close" type="button" data-close-panel aria-label="Fechar painel">
+          x
+        </button>
+        <p class="panel-kicker">Sugestão de presente</p>
+        <h2>Dois itens que ajudam bastante</h2>
+        <p class="panel-copy">
+          Se desejar presentear, você pode escolher qualquer uma dessas opções.
+        </p>
+
+        <div class="gift-grid">
+          <article class="gift-card">
+            <div class="gift-visual">
+              <img
+                class="gift-image is-visible"
+                src="./referencias/fralda1.jpeg"
+                alt="Sugestão de fralda marca 1"
+              />
+              <img
+                class="gift-image"
+                src="./referencias/fralda2.jpeg"
+                alt="Sugestão de fralda marca 2"
+              />
+              <div class="gift-shimmer"></div>
+            </div>
+            <div class="gift-content">
+              <p class="gift-title">Fralda</p>
+              <p class="gift-description">Pode ser de qualquer marca e no tamanho P ou M.</p>
+            </div>
+          </article>
+
+          <article class="gift-card">
+            <div class="gift-visual">
+              <img
+                class="gift-image is-visible"
+                src="./referencias/lenco1.jpeg"
+                alt="Sugestão de lenço umedecido marca 1"
+              />
+              <img
+                class="gift-image"
+                src="./referencias/lenco2.jpeg"
+                alt="Sugestão de lenço umedecido marca 2"
+              />
+              <div class="gift-shimmer"></div>
+            </div>
+            <div class="gift-content">
+              <p class="gift-title">Lenço umedecido</p>
+              <p class="gift-description">Qualquer uma das opções mostradas será bem-vinda.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel-shell" id="vote-panel" aria-hidden="true">
+      <div class="panel-card">
+        <button class="panel-close" type="button" data-close-panel aria-label="Fechar painel">
+          x
+        </button>
+        <p class="panel-kicker">Menina ou Menino</p>
+        <h2>Deixe seu palpite</h2>
+        <p class="panel-copy">
+          Depois da confirmação, escolha um lado.
+        </p>
+
+        <div class="vote-lock" id="vote-lock">
+          <p class="vote-lock-title">Aguardando confirmação</p>
+          <p class="vote-lock-copy">Confirme sua presença para liberar esta etapa.</p>
+        </div>
+        <p class="field-error" id="vote-status-message" hidden></p>
+
+        <div class="vote-panel is-locked" id="vote-panel-content" aria-disabled="true">
+          <div class="vote-options">
+            <button class="vote-option vote-option-girl" type="button" data-vote="menina">
+              <span class="vote-title">Menina</span>
+              <span class="vote-subtitle">Faz o rosa florescer</span>
+            </button>
+            <button class="vote-option vote-option-boy" type="button" data-vote="menino">
+              <span class="vote-title">Menino</span>
+              <span class="vote-subtitle">Faz o azul ganhar vida</span>
+            </button>
+          </div>
+
+          <div class="vote-stage" id="vote-stage">
+            <div class="vote-energy vote-energy-girl"></div>
+            <div class="vote-energy vote-energy-boy"></div>
+            <div class="vote-core">
+              <p class="vote-core-label">Palpites registrados nesta experiencia</p>
+              <div class="vote-score">
+                <div>
+                  <span>Menina</span>
+                  <strong id="girl-count">0</strong>
+                </div>
+                <div>
+                  <span>Menino</span>
+                  <strong id="boy-count">0</strong>
+                </div>
+              </div>
+              <p class="vote-selected" id="vote-selected">
+                Escolha um lado para animar o placar.
+              </p>
+            </div>
+          </div>
+
+          <div class="vote-tags" id="vote-tags"></div>
+        </div>
+      </div>
+    </section>
+
+    <script src="./config.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
