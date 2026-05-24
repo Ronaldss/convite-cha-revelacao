@@ -1095,30 +1095,6 @@ h2 {
   box-shadow: var(--shadow-card);
 }
 
-.location-coordinates {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1rem;
-  margin: 0.85rem 0 0;
-  color: rgba(106, 65, 45, 0.72);
-  font-size: 0.88rem;
-}
-
-.location-coordinates span {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.4rem 0.7rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.74);
-  border: 1px solid rgba(179, 134, 95, 0.12);
-}
-
-.location-coordinates strong {
-  color: var(--brown-700);
-  font-weight: 700;
-}
-
 .panel-card-vote {
   position: relative;
   overflow: hidden;
