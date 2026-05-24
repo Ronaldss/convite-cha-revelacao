@@ -11,7 +11,7 @@ window.CONVITE_CONFIG = {
       longitude: "-35.7089492",
     },
     googleMapsUrl:
-      "https://www.google.com/maps/search/?api=1&query=-9.6498487,-35.7089492",
+      "https://maps.app.goo.gl/V1ixm2jLEv1PtJDy9",
   },
   app: {
     storageMode: "supabase",

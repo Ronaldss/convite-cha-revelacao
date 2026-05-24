@@ -6,8 +6,7 @@ const fallbackConfig = {
     dateLabel: "DIA",
     location:
       "Rua Fortaleza, Qd. J, N.1 - Loteamento São Caetano, Cidade Universitária",
-    googleMapsUrl:
-      "https://maps.google.com/?q=Rua+Fortaleza+Qd+J+N+1+Loteamento+Sao+Caetano+Cidade+Universitaria",
+    googleMapsUrl: "https://maps.app.goo.gl/V1ixm2jLEv1PtJDy9",
   },
   app: {
     storageMode: "local",
@@ -36,8 +35,7 @@ config.event = {
     longitude: "-35.7089492",
   },
   googleMapsUrl:
-    config.event?.googleMapsUrl ||
-    "https://www.google.com/maps/search/?api=1&query=-9.6498487,-35.7089492",
+    config.event?.googleMapsUrl || "https://maps.app.goo.gl/V1ixm2jLEv1PtJDy9",
 };
 
 const storageKeys = {

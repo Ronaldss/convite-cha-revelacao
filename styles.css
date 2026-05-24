@@ -1270,23 +1270,6 @@ h2 {
   font-weight: 700;
 }
 
-.vote-ribbon {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  width: fit-content;
-  margin: 0.95rem 0 0;
-  padding: 0.5rem 0.9rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.68);
-  border: 1px solid rgba(179, 134, 95, 0.14);
-  color: rgba(106, 65, 45, 0.78);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
 .vote-panel.is-locked {
   opacity: 0.46;
   pointer-events: none;
@@ -2044,12 +2027,6 @@ h2 {
     line-height: 1.14;
     min-height: 2.2rem;
     max-width: 5.2rem;
-  }
-
-  .vote-ribbon {
-    margin-top: 0.8rem;
-    font-size: 0.72rem;
-    letter-spacing: 0.06em;
   }
 
   .vote-options {
