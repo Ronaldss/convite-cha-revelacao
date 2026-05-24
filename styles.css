@@ -1330,7 +1330,7 @@ h2 {
   align-items: center;
   justify-content: center;
   width: fit-content;
-  min-width: 3.2rem;
+  min-width: 4.3rem;
   padding: 0.28rem 0.72rem;
   margin-bottom: 0.7rem;
   border-radius: 999px;
@@ -1354,6 +1354,11 @@ h2 {
 .vote-core-label {
   display: block;
   margin-top: 0.32rem;
+}
+
+.vote-subtitle {
+  color: rgba(106, 65, 45, 0.72);
+  line-height: 1.45;
 }
 
 .vote-stage {
