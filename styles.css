@@ -894,6 +894,15 @@ h2 {
   animation: bob 5.2s ease-in-out infinite;
 }
 
+.big-bear-image {
+  display: block;
+  object-fit: contain;
+  object-position: right bottom;
+  width: clamp(7.8rem, 30vw, 10rem);
+  height: clamp(8.9rem, 34vw, 11.4rem);
+  filter: drop-shadow(0 12px 22px rgba(148, 104, 75, 0.1));
+}
+
 .big-bear-head {
   width: 4.15rem;
   height: 3.75rem;
@@ -2108,7 +2117,9 @@ h2 {
   }
 
   .big-bear {
-    transform: scale(0.95);
+    width: 8.8rem;
+    height: 10.2rem;
+    transform: scale(1.03) translateX(0.12rem);
   }
 }
 
@@ -2189,7 +2200,9 @@ h2 {
   }
 
   .big-bear {
-    transform: scale(0.89);
+    width: 8.1rem;
+    height: 9.5rem;
+    transform: scale(1.01) translateX(0.08rem);
   }
 }
 
