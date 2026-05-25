@@ -124,64 +124,26 @@ img {
 .cover-cloud {
   position: absolute;
   z-index: 1;
-  width: clamp(8.4rem, 31vw, 10.4rem);
-  height: clamp(4rem, 14.5vw, 4.9rem);
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 34% 34%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.78) 30%, rgba(242, 229, 213, 0.66) 58%, rgba(220, 192, 156, 0.24) 84%),
-    rgba(255, 250, 245, 0.78);
-  opacity: 0.92;
-  box-shadow:
-    inset 0 -10px 16px rgba(220, 192, 156, 0.18),
-    inset 0 6px 10px rgba(255, 255, 255, 0.32);
+  width: clamp(9.8rem, 34vw, 12.6rem);
+  height: auto;
+  opacity: 0.94;
   animation: floatCloud 8s ease-in-out infinite;
 }
 
-.cover-cloud::before,
-.cover-cloud::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  background: inherit;
+.cover-cloud-image {
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(181, 133, 93, 0.08));
 }
 
 .cover-cloud-left {
-  top: 1.05rem;
-  left: -1.95rem;
-}
-
-.cover-cloud-left::before {
-  width: 3.9rem;
-  height: 3.9rem;
-  left: 0.85rem;
-  top: -1.12rem;
-}
-
-.cover-cloud-left::after {
-  width: 4.25rem;
-  height: 4.25rem;
-  right: 0.7rem;
-  top: -1.22rem;
+  top: 0.55rem;
+  left: -2.7rem;
 }
 
 .cover-cloud-right {
-  top: 1.05rem;
-  right: -1.95rem;
+  top: 0.55rem;
+  right: -2.7rem;
   animation-delay: -3.5s;
-}
-
-.cover-cloud-right::before {
-  width: 3.95rem;
-  height: 3.95rem;
-  left: 0.9rem;
-  top: -1rem;
-}
-
-.cover-cloud-right::after {
-  width: 4.3rem;
-  height: 4.3rem;
-  right: 0.72rem;
-  top: -1.25rem;
 }
 
 .cover-arch {
@@ -206,105 +168,21 @@ img {
 
 .cover-balloon-burst {
   position: absolute;
-  top: -0.2rem;
+  top: -0.4rem;
   left: 50%;
-  width: clamp(8.9rem, 32vw, 10.8rem);
-  height: clamp(7.7rem, 27vw, 9.3rem);
+  width: clamp(7.8rem, 28vw, 9.2rem);
+  height: auto;
   transform: translateX(-50%);
   transform-origin: center top;
   animation: sway 6.5s ease-in-out infinite;
 }
 
-.burst-balloon,
-.basket-balloon {
-  position: absolute;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.95), rgba(248, 237, 224, 0.86) 28%, rgba(232, 213, 188, 0.82) 60%, rgba(181, 133, 93, 0.24)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(220, 192, 156, 0.12));
-  box-shadow:
-    inset 0 -10px 18px rgba(181, 133, 93, 0.12),
-    inset 0 8px 10px rgba(255, 255, 255, 0.28);
-}
-
-.burst-balloon::after,
-.basket-balloon::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -1rem;
-  width: 1px;
-  height: 1.2rem;
-  background: rgba(148, 104, 75, 0.4);
-}
-
-.burst-balloon::before,
-.basket-balloon::before {
-  content: "";
-  position: absolute;
-  width: 26%;
-  height: 18%;
-  top: 14%;
-  left: 24%;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.34);
-  filter: blur(1px);
-}
-
-.burst-balloon-one {
-  width: 3.55rem;
-  height: 3.8rem;
-  left: 0.95rem;
-  top: 0.52rem;
-}
-
-.burst-balloon-two {
-  width: 2.9rem;
-  height: 3.1rem;
-  left: 3.55rem;
-  top: 0.08rem;
-}
-
-.burst-balloon-three {
-  width: 3rem;
-  height: 3.2rem;
-  right: 0.9rem;
-  top: 0.82rem;
-}
-
-.burst-balloon-four {
-  width: 2rem;
-  height: 2.15rem;
-  left: 0.2rem;
-  top: 2.28rem;
-}
-
-.burst-balloon-five {
-  width: 2.1rem;
-  height: 2.25rem;
-  right: 2.35rem;
-  top: 2.2rem;
-}
-
-.burst-balloon-six {
-  width: 2.15rem;
-  height: 2.3rem;
-  left: 2.25rem;
-  top: 2.45rem;
-}
-
-.burst-balloon-seven {
-  width: 1.75rem;
-  height: 1.9rem;
-  right: 0.18rem;
-  top: 2.45rem;
-}
-
-.burst-balloon-eight {
-  width: 1.85rem;
-  height: 2rem;
-  left: 5.2rem;
-  top: 2.65rem;
+.cover-balloon-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 18px rgba(181, 133, 93, 0.08));
 }
 
 .mini-bear,
@@ -1944,16 +1822,17 @@ h2 {
   }
 
   .cover-cloud-left {
-    left: -2.25rem;
+    left: -2.55rem;
   }
 
   .cover-cloud-right {
-    right: -2.25rem;
+    right: -2.55rem;
   }
 
   .cover-balloon-burst {
-    top: -0.05rem;
-    transform: translateX(-50%) scale(0.94);
+    top: -0.18rem;
+    width: 8.4rem;
+    transform: translateX(-50%) scale(0.98);
   }
 
   .cover-actions {
@@ -2139,15 +2018,19 @@ h2 {
   }
 
   .cover-cloud-left {
-    transform: scale(0.9);
+    left: -2.35rem;
+    transform: scale(0.96);
   }
 
   .cover-cloud-right {
-    transform: scale(0.9);
+    right: -2.35rem;
+    transform: scale(0.96);
   }
 
   .cover-balloon-burst {
-    transform: translateX(-50%) scale(0.88);
+    top: -0.08rem;
+    width: 7.8rem;
+    transform: translateX(-50%) scale(0.94);
   }
 
   .cover-name-line {
@@ -2208,15 +2091,17 @@ h2 {
 
 @media (min-width: 390px) and (max-width: 460px) {
   .cover-cloud-left {
-    left: -1.8rem;
+    left: -2.2rem;
   }
 
   .cover-cloud-right {
-    right: -1.8rem;
+    right: -2.2rem;
   }
 
   .cover-balloon-burst {
-    transform: translateX(-50%) scale(0.98);
+    top: -0.24rem;
+    width: 8.9rem;
+    transform: translateX(-50%) scale(1);
   }
 
   .basket-scene {
