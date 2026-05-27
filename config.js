@@ -4,14 +4,12 @@ window.CONVITE_CONFIG = {
     time: "14H",
     weekday: "SABADO",
     dateLabel: "DIA",
-    location:
-      "R. Fortaleza, 63 - Cidade Universitaria, Maceio - AL, 57072-313",
+    location: "R. Fortaleza, 63 - Cidade Universitaria, Maceio - AL, 57072-313",
     coordinates: {
       latitude: "-9.6498487",
       longitude: "-35.7089492",
     },
-    googleMapsUrl:
-      "https://maps.app.goo.gl/V1ixm2jLEv1PtJDy9",
+    googleMapsUrl: "https://maps.app.goo.gl/V1ixm2jLEv1PtJDy9",
   },
   app: {
     storageMode: "supabase",
@@ -19,31 +17,7 @@ window.CONVITE_CONFIG = {
   guests: {
     mode: "invite_links",
     inviteParamName: "invite",
-    names: [
-      "Rogério e esposa",
-      "Daniel",
-      "Eduardo e esposa",
-      "Christian e esposa",
-      "Samuel e esposa",
-      "Elizabeth",
-      "Nedson e esposa",
-      "Gustavo",
-      "Renildo e esposa",
-      "Melque",
-      "Marcos e esposa",
-      "Roni e Manu",
-      "Mãe",
-      "Sergio e esposa",
-      "Gabriel",
-      "Pedro e esposa",
-      "Vitoria e marido",
-      "Sidney",
-      "Kyccia",
-      "Paulo e esposa",
-      "Filipe e esposa",
-      "Mariana",
-      "Juliane"
-    ],
+    names: [],
   },
   supabase: {
     url: "https://ftpvpunusztubfsagcez.supabase.co",

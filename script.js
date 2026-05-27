@@ -293,13 +293,13 @@ function initModeNotes() {
   }
   if (ui.guestListNote) {
     ui.guestListNote.textContent = isAllowlist
-      ? `Lista ativa: ${config.guests.names.length} convidados autorizados.`
-      : "Lista de convidados desativada.";
+      ? "Lista de convidados ativa."
+      : "Validacao por lista desativada.";
   }
   if (ui.guestInviteNote) {
     ui.guestInviteNote.textContent = isInviteLinks
       ? inviteCode
-        ? `Link individual detectado: ${inviteCode}.`
+        ? "Convite individual validado."
         : "Este modo exige abrir o convite pelo link individual."
       : "Modo de link individual desativado.";
     ui.guestInviteNote.classList.toggle("is-highlight", isInviteLinks);
