@@ -31,6 +31,8 @@ window.CONVITE_CONFIG = {
       "Renildo e esposa",
       "Melque",
       "Marcos e esposa",
+      "Roni e Manu",
+      "Mãe",
       "Sergio e esposa",
       "Gabriel",
       "Pedro e esposa",
@@ -40,12 +42,7 @@ window.CONVITE_CONFIG = {
       "Paulo e esposa",
       "Filipe e esposa",
       "Mariana",
-      "Juliane",
-      "Usuário secreto 01",
-      "Usuário secreto 02",
-      "Usuário secreto 03",
-      "Usuário secreto 04",
-      "Usuário secreto 05",
+      "Juliane"
     ],
   },
   supabase: {
