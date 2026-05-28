@@ -454,6 +454,10 @@ h2 {
   transform: translateY(0.45rem) scale(0.98);
 }
 
+.cover-welcome[hidden] {
+  display: none !important;
+}
+
 .cover-welcome.is-visible {
   animation: revealCoverWelcome 480ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
