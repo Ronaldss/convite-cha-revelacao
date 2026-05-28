@@ -91,6 +91,8 @@ const inviteCode = new URLSearchParams(window.location.search).get(
 );
 const state = {
   guestContext: null,
+  coverWelcomeTimer: null,
+  coverWelcomeCleanupTimer: null,
 };
 
 bootstrap().catch((error) => {
@@ -323,18 +325,36 @@ function initModeNotes() {
 function setCoverWelcome(name = "") {
   if (!ui.coverWelcome || !ui.coverWelcomeName) return;
 
+  window.clearTimeout(state.coverWelcomeTimer);
+  window.clearTimeout(state.coverWelcomeCleanupTimer);
+
   const trimmed = String(name || "").trim();
   if (!trimmed) {
     ui.coverWelcome.hidden = true;
     ui.coverWelcome.classList.remove("is-visible");
+    ui.coverWelcome.classList.remove("is-hiding");
     return;
   }
 
   ui.coverWelcomeName.textContent = formatWelcomeName(trimmed);
   ui.coverWelcome.hidden = false;
   ui.coverWelcome.classList.remove("is-visible");
+  ui.coverWelcome.classList.remove("is-hiding");
   void ui.coverWelcome.offsetWidth;
   ui.coverWelcome.classList.add("is-visible");
+
+  state.coverWelcomeTimer = window.setTimeout(() => {
+    if (!ui.coverWelcome || ui.coverWelcome.hidden) return;
+
+    ui.coverWelcome.classList.remove("is-visible");
+    ui.coverWelcome.classList.add("is-hiding");
+
+    state.coverWelcomeCleanupTimer = window.setTimeout(() => {
+      if (!ui.coverWelcome) return;
+      ui.coverWelcome.hidden = true;
+      ui.coverWelcome.classList.remove("is-hiding");
+    }, 420);
+  }, 4200);
 }
 
 function formatWelcomeName(name) {
