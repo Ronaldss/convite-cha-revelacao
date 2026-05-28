@@ -127,7 +127,6 @@ img {
   width: clamp(11.6rem, 40vw, 15.2rem);
   height: auto;
   opacity: 0.98;
-  animation: floatCloud 8s ease-in-out infinite;
 }
 
 .cover-cloud-image {
@@ -174,7 +173,6 @@ img {
   height: auto;
   transform: translateX(-50%) scale(0.96);
   transform-origin: center top;
-  animation: sway 6.5s ease-in-out infinite;
 }
 
 .cover-balloon-image {
@@ -747,7 +745,6 @@ h2 {
   width: clamp(6.2rem, 24vw, 8.2rem);
   height: clamp(7rem, 28vw, 9.2rem);
   transform-origin: left bottom;
-  animation: sway 6.5s ease-in-out infinite;
 }
 
 .basket-scene-image {
@@ -812,7 +809,6 @@ h2 {
   width: clamp(6.3rem, 23vw, 7.75rem);
   height: clamp(7.2rem, 27vw, 8.95rem);
   transform-origin: right bottom;
-  animation: bob 5.2s ease-in-out infinite;
 }
 
 .big-bear-image {
