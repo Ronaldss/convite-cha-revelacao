@@ -492,19 +492,29 @@ function renderVotes(votes) {
   normalizedVotes
     .slice()
     .sort((left, right) => new Date(right.createdAt) - new Date(left.createdAt))
-    .forEach((entry) => {
+    .forEach((entry, index) => {
       const tag = document.createElement("span");
       tag.className = "vote-tag";
+      tag.style.setProperty("--vote-tag-delay", `${Math.min(index, 7) * 0.06}s`);
 
       const dot = document.createElement("span");
       dot.className = `vote-dot ${
         entry.vote === "menina" ? "vote-dot-girl" : "vote-dot-boy"
       }`;
 
-      const text = document.createElement("span");
-      text.textContent = `${entry.name} - ${entry.vote}`;
+      const textGroup = document.createElement("span");
+      textGroup.className = "vote-tag-copy";
 
-      tag.append(dot, text);
+      const nameText = document.createElement("strong");
+      nameText.className = "vote-tag-name";
+      nameText.textContent = entry.name;
+
+      const choiceText = document.createElement("span");
+      choiceText.className = "vote-tag-choice";
+      choiceText.textContent = entry.vote === "menina" ? "palpitou Helena" : "palpitou Heitor";
+
+      textGroup.append(nameText, choiceText);
+      tag.append(dot, textGroup);
       ui.voteTags.appendChild(tag);
     });
 }
