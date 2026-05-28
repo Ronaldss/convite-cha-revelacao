@@ -168,11 +168,11 @@ img {
 
 .cover-balloon-burst {
   position: absolute;
-  top: -0.95rem;
+  top: -1.6rem;
   left: 50%;
-  width: clamp(7.3rem, 27vw, 8.9rem);
+  width: clamp(5.8rem, 21vw, 7.1rem);
   height: auto;
-  transform: translateX(-50%) scale(1);
+  transform: translateX(-50%) scale(0.96);
   transform-origin: center top;
   animation: sway 6.5s ease-in-out infinite;
 }
@@ -1804,9 +1804,9 @@ h2 {
   }
 
   .cover-balloon-burst {
-    top: -0.7rem;
-    width: 8.1rem;
-    transform: translateX(-50%) scale(0.98);
+    top: -1.28rem;
+    width: 6.6rem;
+    transform: translateX(-50%) scale(0.94);
   }
 
   .cover-actions {
@@ -1995,9 +1995,9 @@ h2 {
   }
 
   .cover-balloon-burst {
-    top: -0.08rem;
-    width: 7.8rem;
-    transform: translateX(-50%) scale(0.94);
+    top: -1.02rem;
+    width: 6.2rem;
+    transform: translateX(-50%) scale(0.9);
   }
 
   .cover-name-line {
@@ -2066,9 +2066,9 @@ h2 {
   }
 
   .cover-balloon-burst {
-    top: -0.82rem;
-    width: 8.4rem;
-    transform: translateX(-50%) scale(0.99);
+    top: -1.34rem;
+    width: 6.8rem;
+    transform: translateX(-50%) scale(0.95);
   }
 
   .basket-scene {
