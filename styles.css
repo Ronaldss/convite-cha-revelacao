@@ -124,25 +124,25 @@ img {
 .cover-cloud {
   position: absolute;
   z-index: 1;
-  width: clamp(9.8rem, 34vw, 12.6rem);
+  width: clamp(11.6rem, 40vw, 15.2rem);
   height: auto;
-  opacity: 0.94;
+  opacity: 0.98;
   animation: floatCloud 8s ease-in-out infinite;
 }
 
 .cover-cloud-image {
   object-fit: contain;
-  filter: drop-shadow(0 8px 16px rgba(181, 133, 93, 0.08));
+  filter: drop-shadow(0 12px 20px rgba(181, 133, 93, 0.1));
 }
 
 .cover-cloud-left {
-  top: 0.55rem;
-  left: -2.7rem;
+  top: -0.15rem;
+  left: -4rem;
 }
 
 .cover-cloud-right {
-  top: 0.55rem;
-  right: -2.7rem;
+  top: -0.1rem;
+  right: -4rem;
   animation-delay: -3.5s;
 }
 
@@ -766,19 +766,20 @@ h2 {
 
 .big-bear {
   position: relative;
-  width: clamp(5.8rem, 22vw, 7.25rem);
-  height: clamp(6.5rem, 24vw, 8.1rem);
+  width: clamp(6.3rem, 23vw, 7.75rem);
+  height: clamp(7.2rem, 27vw, 8.95rem);
   transform-origin: right bottom;
   animation: bob 5.2s ease-in-out infinite;
 }
 
 .big-bear-image {
   display: block;
-  object-fit: contain;
-  object-position: right bottom;
-  width: clamp(7.8rem, 30vw, 10rem);
-  height: clamp(8.9rem, 34vw, 11.4rem);
-  filter: drop-shadow(0 12px 22px rgba(148, 104, 75, 0.1));
+  object-fit: cover;
+  object-position: center bottom;
+  width: clamp(9.2rem, 34vw, 11.5rem);
+  height: clamp(10.8rem, 39vw, 13.6rem);
+  transform: translateX(0.15rem) scale(1.06);
+  filter: drop-shadow(0 14px 24px rgba(148, 104, 75, 0.11));
 }
 
 .big-bear-head {
@@ -1822,11 +1823,11 @@ h2 {
   }
 
   .cover-cloud-left {
-    left: -2.55rem;
+    left: -3.55rem;
   }
 
   .cover-cloud-right {
-    right: -2.55rem;
+    right: -3.55rem;
   }
 
   .cover-balloon-burst {
@@ -1996,9 +1997,9 @@ h2 {
   }
 
   .big-bear {
-    width: 8.8rem;
-    height: 10.2rem;
-    transform: scale(1.03) translateX(0.12rem);
+    width: 9.4rem;
+    height: 10.9rem;
+    transform: scale(1.04) translateX(0.18rem);
   }
 }
 
@@ -2014,17 +2015,20 @@ h2 {
   }
 
   .cover-cloud {
-    opacity: 0.84;
+    width: clamp(10.9rem, 41vw, 13.5rem);
+    opacity: 0.9;
   }
 
   .cover-cloud-left {
-    left: -2.35rem;
-    transform: scale(0.96);
+    top: 0.05rem;
+    left: -3.2rem;
+    transform: scale(0.98);
   }
 
   .cover-cloud-right {
-    right: -2.35rem;
-    transform: scale(0.96);
+    top: 0.1rem;
+    right: -3.2rem;
+    transform: scale(0.98);
   }
 
   .cover-balloon-burst {
@@ -2091,11 +2095,11 @@ h2 {
 
 @media (min-width: 390px) and (max-width: 460px) {
   .cover-cloud-left {
-    left: -2.2rem;
+    left: -3rem;
   }
 
   .cover-cloud-right {
-    right: -2.2rem;
+    right: -3rem;
   }
 
   .cover-balloon-burst {
@@ -2109,7 +2113,9 @@ h2 {
   }
 
   .big-bear {
-    transform: scale(0.99);
+    width: 9rem;
+    height: 10.5rem;
+    transform: scale(1) translateX(0.08rem);
   }
 }
 
