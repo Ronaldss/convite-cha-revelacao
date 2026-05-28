@@ -77,6 +77,7 @@ const ui = {
   voteSelected: document.getElementById("vote-selected"),
   girlCount: document.getElementById("girl-count"),
   boyCount: document.getElementById("boy-count"),
+  voteNameSparks: document.getElementById("vote-name-sparks"),
   girlMeterFill: document.getElementById("girl-meter-fill"),
   boyMeterFill: document.getElementById("boy-meter-fill"),
   voteTags: document.getElementById("vote-tags"),
@@ -425,6 +426,7 @@ async function initVoting() {
       const votes = Array.isArray(saveResult) ? saveResult : saveResult.votes;
 
       ui.voteStage.dataset.theme = vote === "menina" ? "girl" : "boy";
+      triggerVoteCelebration(vote, guestName);
       ui.voteSelected.textContent =
         vote === "menina"
           ? `${guestName} escolheu menina e fez o rosa acender nesta experiência.`
@@ -505,6 +507,55 @@ function renderVotes(votes) {
       tag.append(dot, text);
       ui.voteTags.appendChild(tag);
     });
+}
+
+function triggerVoteCelebration(vote, guestName) {
+  if (!ui.voteStage) return;
+
+  const theme = vote === "menina" ? "girl" : "boy";
+  const displayName = formatSparkName(guestName);
+
+  ui.voteStage.dataset.burst = theme;
+  ui.voteStage.classList.remove("is-bursting");
+  void ui.voteStage.offsetWidth;
+  ui.voteStage.classList.add("is-bursting");
+
+  window.clearTimeout(triggerVoteCelebration.timeoutId);
+  triggerVoteCelebration.timeoutId = window.setTimeout(() => {
+    ui.voteStage.classList.remove("is-bursting");
+    delete ui.voteStage.dataset.burst;
+  }, 1900);
+
+  spawnNameSparks(theme, displayName);
+}
+
+function spawnNameSparks(theme, displayName) {
+  if (!ui.voteNameSparks || !displayName) return;
+
+  const sparkCount = 6;
+  const leftAnchors = [12, 24, 38, 56, 72, 84];
+
+  for (let index = 0; index < sparkCount; index += 1) {
+    const spark = document.createElement("span");
+    spark.className = `vote-name-spark vote-name-spark-${theme}`;
+    spark.textContent = displayName;
+    spark.style.left = `${leftAnchors[index] || 50}%`;
+    spark.style.setProperty("--spark-delay", `${index * 0.08}s`);
+    spark.style.setProperty(
+      "--spark-drift",
+      `${(index % 2 === 0 ? -1 : 1) * (10 + index * 2)}px`,
+    );
+    ui.voteNameSparks.appendChild(spark);
+
+    window.setTimeout(() => {
+      spark.remove();
+    }, 2400);
+  }
+}
+
+function formatSparkName(name) {
+  const firstName = String(name || "").trim().split(/\s+/)[0] || "";
+  return firstName.length > 10 ? firstName.slice(0, 10) : firstName;
 }
 
 function lockVotingWithExistingVote(guestContext) {
