@@ -65,6 +65,8 @@ const ui = {
   voteStatusMessage: document.getElementById("vote-status-message"),
   copyLocationButton: document.getElementById("copy-location-button"),
   copyLocationFeedback: document.getElementById("copy-location-feedback"),
+  coverWelcome: document.getElementById("cover-welcome"),
+  coverWelcomeName: document.getElementById("cover-welcome-name"),
   rsvpForm: document.getElementById("rsvp-form"),
   guestNameInput: document.getElementById("guest-name"),
   guestNameError: document.getElementById("guest-name-error"),
@@ -318,6 +320,29 @@ function initModeNotes() {
   }
 }
 
+function setCoverWelcome(name = "") {
+  if (!ui.coverWelcome || !ui.coverWelcomeName) return;
+
+  const trimmed = String(name || "").trim();
+  if (!trimmed) {
+    ui.coverWelcome.hidden = true;
+    ui.coverWelcome.classList.remove("is-visible");
+    return;
+  }
+
+  ui.coverWelcomeName.textContent = formatWelcomeName(trimmed);
+  ui.coverWelcome.hidden = false;
+  ui.coverWelcome.classList.remove("is-visible");
+  void ui.coverWelcome.offsetWidth;
+  ui.coverWelcome.classList.add("is-visible");
+}
+
+function formatWelcomeName(name) {
+  if (/\se\s/i.test(name)) return name;
+  const firstName = name.split(/\s+/)[0] || name;
+  return firstName.length > 18 ? firstName.slice(0, 18) : firstName;
+}
+
 async function initPresenceFlow() {
   if (isInviteLinksEnabled()) {
     await initInvitePresenceFlow();
@@ -356,6 +381,7 @@ async function initInvitePresenceFlow() {
   if (!inviteCode) {
     ui.guestNameInput.value = "";
     ui.guestNameInput.placeholder = "Abra o convite pelo link individual";
+    setCoverWelcome("");
     showGuestValidationError(
       "Este convite precisa ser aberto pelo link individual enviado ao convidado.",
     );
@@ -365,6 +391,7 @@ async function initInvitePresenceFlow() {
 
   const guestContext = await dataStore.getGuestByInviteCode(inviteCode);
   if (!guestContext) {
+    setCoverWelcome("");
     ui.guestNameInput.value = "";
     ui.guestNameInput.placeholder = "Convite não encontrado";
     showGuestValidationError("Este link de convite não foi encontrado.");
@@ -373,6 +400,7 @@ async function initInvitePresenceFlow() {
   }
 
   state.guestContext = guestContext;
+  setCoverWelcome(guestContext.displayName || guestContext.name);
   ui.guestNameInput.value = guestContext.displayName || guestContext.name;
   clearGuestValidationError();
 
@@ -389,6 +417,7 @@ async function initInvitePresenceFlow() {
 
     const savedGuest = await dataStore.confirmInviteGuest(guestContext);
     state.guestContext = savedGuest;
+    setCoverWelcome(savedGuest.displayName || savedGuest.name);
     unlockVoting(savedGuest.displayName || savedGuest.name);
   });
 }

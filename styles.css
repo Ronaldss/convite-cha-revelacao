@@ -427,6 +427,56 @@ h2 {
   letter-spacing: 0.01em;
 }
 
+.cover-welcome {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.32rem;
+  margin: 0.68rem auto 0;
+  padding: 0.52rem 1rem 0.56rem;
+  max-width: min(18.4rem, 100%);
+  border: 1px solid rgba(181, 137, 100, 0.16);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(247, 236, 221, 0.88)),
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.76), transparent 60%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.86),
+    0 0.8rem 1.6rem rgba(156, 118, 88, 0.1);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.32;
+  letter-spacing: 0.012em;
+  color: rgba(119, 78, 55, 0.76);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(0.45rem) scale(0.98);
+}
+
+.cover-welcome.is-visible {
+  animation: revealCoverWelcome 480ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+#cover-welcome-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--brown-700);
+}
+
+@keyframes revealCoverWelcome {
+  0% {
+    opacity: 0;
+    transform: translateY(0.45rem) scale(0.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .cover-bridge {
   margin: 0;
   font-family: var(--font-ui);
@@ -2024,6 +2074,17 @@ h2 {
     line-height: 1.38;
   }
 
+  .cover-welcome {
+    margin-top: 0.58rem;
+    padding: 0.46rem 0.9rem 0.5rem;
+    max-width: 16.8rem;
+    font-size: 0.74rem;
+  }
+
+  #cover-welcome-name {
+    font-size: 0.94rem;
+  }
+
   .cover-bridge {
     max-width: 15.2rem;
     margin-inline: auto;
@@ -2199,6 +2260,17 @@ h2 {
     top: -1.02rem;
     width: 6.2rem;
     transform: translateX(-50%) scale(0.9);
+  }
+
+  .cover-welcome {
+    max-width: 15.8rem;
+    padding-left: 0.82rem;
+    padding-right: 0.82rem;
+    font-size: 0.7rem;
+  }
+
+  #cover-welcome-name {
+    font-size: 0.88rem;
   }
 
   .cover-name-line {
