@@ -536,8 +536,8 @@ function openVoteConfirmation(vote, guestName) {
   if (ui.voteConfirmCopy) {
     ui.voteConfirmCopy.textContent =
       vote === "menina"
-        ? `Confirmar Helena como seu palpite, ${guestName}?`
-        : `Confirmar Heitor como seu palpite, ${guestName}?`;
+        ? "Confirmar Helena como seu palpite?"
+        : "Confirmar Heitor como seu palpite?";
   }
   if (ui.voteConfirm) {
     ui.voteConfirm.hidden = false;
