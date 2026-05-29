@@ -1,9 +1,9 @@
 window.CONVITE_CONFIG = {
   event: {
-    date: "04/07",
-    time: "14H",
-    weekday: "SABADO",
-    dateLabel: "DIA",
+    date: "04 Julho 2026",
+    time: "às 14h",
+    weekday: "",
+    dateLabel: "",
     location: "R. Fortaleza, 63 - Cidade Universitaria, Maceio - AL, 57072-313",
     coordinates: {
       latitude: "-9.6498487",

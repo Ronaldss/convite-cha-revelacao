@@ -1,9 +1,9 @@
 const fallbackConfig = {
   event: {
-    date: "04/07",
-    time: "14H",
-    weekday: "SÁBADO",
-    dateLabel: "DIA",
+    date: "04 Julho 2026",
+    time: "às 14h",
+    weekday: "",
+    dateLabel: "",
     location:
       "Rua Fortaleza, Qd. J, N.1 - Loteamento São Caetano, Cidade Universitária",
     googleMapsUrl: "https://maps.app.goo.gl/V1ixm2jLEv1PtJDy9",

@@ -6,3 +6,4 @@ convidados-normalizados.csv
 links-convidados.csv
 supabase-seed-guests.sql
 convidados-invite-codes.md
+supabase-add-*.sql
