@@ -28,6 +28,10 @@ const config = window.CONVITE_CONFIG || fallbackConfig;
 
 config.event = {
   ...config.event,
+  date: config.event?.date || "04/07",
+  time: config.event?.time || "14:00H",
+  weekday: config.event?.weekday || "S\u00E1bado",
+  dateLabel: config.event?.dateLabel || "DIA",
   location:
     config.event?.location || "R. Fortaleza, 63 - Cidade Universitária, Maceió - AL, 57072-313",
   coordinates: config.event?.coordinates || {
@@ -43,18 +47,7 @@ const storageKeys = {
   votes: "convite-cha-votes",
 };
 
-const eventNodes = {
-  date: [...document.querySelectorAll("[data-event-date]")],
-  time: [...document.querySelectorAll("[data-event-time]")],
-  weekday: [...document.querySelectorAll("[data-event-weekday]")],
-  dateLabel: [...document.querySelectorAll("[data-event-date-label]")],
-  location: [...document.querySelectorAll("[data-event-location]")],
-  locationLine1: [...document.querySelectorAll("[data-event-location-line-1]")],
-  locationLine2: [...document.querySelectorAll("[data-event-location-line-2]")],
-  latitude: [...document.querySelectorAll("[data-event-latitude]")],
-  longitude: [...document.querySelectorAll("[data-event-longitude]")],
-  mapLink: [...document.querySelectorAll("[data-map-link]")],
-};
+let eventNodes = collectEventNodes();
 
 const ui = {
   storageModeNote: document.getElementById("storage-mode-note"),
@@ -133,6 +126,8 @@ function initLocationSharing() {
 
 function initEventDetails() {
   const { event } = config;
+  renderCoverEventBlock(event);
+  eventNodes = collectEventNodes();
 
   eventNodes.date.forEach((node) => {
     node.textContent = event.date;
@@ -165,6 +160,51 @@ function initEventDetails() {
   eventNodes.mapLink.forEach((node) => {
     node.href = event.googleMapsUrl;
   });
+}
+
+function collectEventNodes() {
+  return {
+    date: [...document.querySelectorAll("[data-event-date]")],
+    time: [...document.querySelectorAll("[data-event-time]")],
+    weekday: [...document.querySelectorAll("[data-event-weekday]")],
+    dateLabel: [...document.querySelectorAll("[data-event-date-label]")],
+    location: [...document.querySelectorAll("[data-event-location]")],
+    locationLine1: [...document.querySelectorAll("[data-event-location-line-1]")],
+    locationLine2: [...document.querySelectorAll("[data-event-location-line-2]")],
+    latitude: [...document.querySelectorAll("[data-event-latitude]")],
+    longitude: [...document.querySelectorAll("[data-event-longitude]")],
+    mapLink: [...document.querySelectorAll("[data-map-link]")],
+  };
+}
+
+function renderCoverEventBlock(event) {
+  const eventBlock = document.querySelector(".cover-event-block");
+  if (!eventBlock) return;
+
+  eventBlock.innerHTML = `
+    <div class="cover-event" aria-label="Data e hora do evento">
+      <div class="cover-event-col cover-event-col-plain">
+        <span class="cover-event-main cover-event-weekday-line" data-event-weekday>${escapeHtml(
+          event.weekday || "",
+        )}</span>
+      </div>
+      <span class="cover-event-separator" aria-hidden="true"></span>
+      <div class="cover-event-col cover-event-col-center">
+        <span class="cover-event-label" data-event-date-label>${escapeHtml(
+          event.dateLabel || "",
+        )}</span>
+        <span class="cover-event-main cover-event-date-short" data-event-date>${escapeHtml(
+          event.date || "",
+        )}</span>
+      </div>
+      <span class="cover-event-separator" aria-hidden="true"></span>
+      <div class="cover-event-col cover-event-col-plain">
+        <span class="cover-event-main cover-event-time-short" data-event-time>${escapeHtml(
+          event.time || "",
+        )}</span>
+      </div>
+    </div>
+  `;
 }
 
 function buildShareableLocation() {
@@ -853,4 +893,13 @@ function splitLocation(location) {
     line1: location,
     line2: "",
   };
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
