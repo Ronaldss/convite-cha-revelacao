@@ -313,6 +313,20 @@
         <p class="field-error" id="vote-status-message" hidden></p>
 
         <div class="vote-panel is-locked" id="vote-panel-content" aria-disabled="true">
+          <div class="vote-confirm" id="vote-confirm" hidden>
+            <p class="vote-confirm-kicker">Confirmar palpite</p>
+            <p class="vote-confirm-copy" id="vote-confirm-copy">
+              Você quer confirmar este palpite?
+            </p>
+            <div class="vote-confirm-actions">
+              <button class="vote-confirm-button vote-confirm-button-secondary" type="button" id="vote-confirm-cancel">
+                Voltar
+              </button>
+              <button class="vote-confirm-button vote-confirm-button-primary" type="button" id="vote-confirm-submit">
+                Confirmar escolha
+              </button>
+            </div>
+          </div>
           <div class="vote-history">
             <p class="vote-history-title">Últimos palpites</p>
             <div class="vote-tags" id="vote-tags"></div>

@@ -66,6 +66,10 @@ const ui = {
   voteLock: document.getElementById("vote-lock"),
   votePanel: document.getElementById("vote-panel-content"),
   voteOptions: document.getElementById("vote-options"),
+  voteConfirm: document.getElementById("vote-confirm"),
+  voteConfirmCopy: document.getElementById("vote-confirm-copy"),
+  voteConfirmCancel: document.getElementById("vote-confirm-cancel"),
+  voteConfirmSubmit: document.getElementById("vote-confirm-submit"),
   voteStage: document.getElementById("vote-stage"),
   voteSelected: document.getElementById("vote-selected"),
   girlCount: document.getElementById("girl-count"),
@@ -82,6 +86,7 @@ const inviteCode = new URLSearchParams(window.location.search).get(
 );
 const state = {
   guestContext: null,
+  pendingVote: null,
 };
 
 bootstrap().catch((error) => {
@@ -97,6 +102,7 @@ async function bootstrap() {
   initModeNotes();
   await initPresenceFlow();
   await initVoting();
+  initVoteConfirmationInterception();
   initVoteSync();
 }
 
@@ -493,6 +499,111 @@ function initVoteSync() {
     const votes = await dataStore.getVotes();
     renderVotes(votes);
   }, 5000);
+}
+
+function initVoteConfirmationInterception() {
+  ui.voteConfirmCancel?.addEventListener("click", closeVoteConfirmation);
+  ui.voteConfirmSubmit?.addEventListener("click", confirmPendingVote);
+
+  document.querySelectorAll("[data-vote]").forEach((button) => {
+    if (button.dataset.confirmInterceptAttached === "true") return;
+
+    button.addEventListener(
+      "click",
+      async (event) => {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        const guestName = await getActiveGuestName();
+        if (!guestName) return;
+
+        if (state.guestContext?.existingVote) {
+          lockVotingWithExistingVote(state.guestContext);
+          return;
+        }
+
+        openVoteConfirmation(button.dataset.vote, guestName);
+      },
+      true,
+    );
+
+    button.dataset.confirmInterceptAttached = "true";
+  });
+}
+
+function openVoteConfirmation(vote, guestName) {
+  state.pendingVote = { vote, guestName };
+  if (ui.voteConfirmCopy) {
+    ui.voteConfirmCopy.textContent =
+      vote === "menina"
+        ? `Confirmar Helena como seu palpite, ${guestName}?`
+        : `Confirmar Heitor como seu palpite, ${guestName}?`;
+  }
+  if (ui.voteConfirm) {
+    ui.voteConfirm.hidden = false;
+  }
+  ui.voteOptions?.classList.add("is-awaiting-confirmation");
+}
+
+function closeVoteConfirmation() {
+  state.pendingVote = null;
+  if (ui.voteConfirm) {
+    ui.voteConfirm.hidden = true;
+  }
+  ui.voteOptions?.classList.remove("is-awaiting-confirmation");
+}
+
+async function confirmPendingVote() {
+  if (!state.pendingVote) return;
+
+  const { vote, guestName } = state.pendingVote;
+  if (ui.voteConfirmSubmit) {
+    ui.voteConfirmSubmit.disabled = true;
+  }
+
+  try {
+    const saveResult = await dataStore.saveVote({
+      name: guestName,
+      vote,
+      guestContext: state.guestContext,
+    });
+
+    if (saveResult?.blockedByExistingVote) {
+      state.guestContext = {
+        ...(state.guestContext || {}),
+        existingVote: saveResult.existingVote,
+        displayName: saveResult.existingVote.name,
+      };
+      closeVoteConfirmation();
+      lockVotingWithExistingVote(state.guestContext);
+      return;
+    }
+
+    const votes = Array.isArray(saveResult) ? saveResult : saveResult.votes;
+
+    ui.voteStage.dataset.theme = vote === "menina" ? "girl" : "boy";
+    triggerVoteCelebration(vote, guestName);
+    ui.voteSelected.textContent =
+      vote === "menina"
+        ? `${guestName} escolheu menina e fez o rosa acender nesta experiÃªncia.`
+        : `${guestName} escolheu menino e fez o azul ganhar brilho nesta experiÃªncia.`;
+    hideVoteStatusMessage();
+
+    if (state.guestContext) {
+      state.guestContext.existingVote = {
+        name: guestName,
+        vote,
+        createdAt: new Date().toISOString(),
+      };
+    }
+
+    closeVoteConfirmation();
+    renderVotes(votes);
+  } finally {
+    if (ui.voteConfirmSubmit) {
+      ui.voteConfirmSubmit.disabled = false;
+    }
+  }
 }
 
 function unlockVoting(guestName) {
