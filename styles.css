@@ -475,7 +475,7 @@ h2 {
 .cover-event-block {
   display: grid;
   gap: 0;
-  margin: 0.46rem auto 0;
+  margin: 0.42rem auto 0;
 }
 
 .cover-event {
@@ -509,16 +509,16 @@ h2 {
 }
 
 .cover-event-date-line {
-  font-size: clamp(1.56rem, 5.4vw, 1.98rem);
+  font-size: clamp(1.38rem, 4.9vw, 1.74rem);
   line-height: 0.98;
   letter-spacing: -0.024em;
-  color: rgba(106, 65, 45, 0.94);
+  color: rgba(106, 65, 45, 0.82);
 }
 
 .cover-event-time-line {
-  font-size: clamp(1.12rem, 4.1vw, 1.34rem);
+  font-size: clamp(0.96rem, 3.6vw, 1.12rem);
   line-height: 0.98;
-  color: rgba(106, 65, 45, 0.88);
+  color: rgba(106, 65, 45, 0.74);
 }
 
 .cover-location {
@@ -2177,7 +2177,7 @@ h2 {
 
   .cover-event-block {
     gap: 0.3rem;
-    margin-top: 0.44rem;
+    margin-top: 0.38rem;
   }
 
   .cover-event {
@@ -2186,11 +2186,11 @@ h2 {
   }
 
   .cover-event-date-line {
-    font-size: 1.42rem;
+    font-size: 1.24rem;
   }
 
   .cover-event-time-line {
-    font-size: 1.02rem;
+    font-size: 0.9rem;
   }
 
   .cover-action-icon {
@@ -2366,11 +2366,11 @@ h2 {
 
 
   .cover-event-date-line {
-    font-size: 1.22rem;
+    font-size: 1.08rem;
   }
 
   .cover-event-time-line {
-    font-size: 0.92rem;
+    font-size: 0.82rem;
   }
 
   .cover-name {
