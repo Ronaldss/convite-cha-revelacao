@@ -132,14 +132,16 @@ function initLocationSharing() {
 
 function initEventDetails() {
   const { event } = config;
+  const coverDate = formatCoverDate(event.date);
+  const coverTime = formatCoverTime(event.time);
   renderCoverEventBlock(event);
   eventNodes = collectEventNodes();
 
   eventNodes.date.forEach((node) => {
-    node.textContent = event.date;
+    node.textContent = coverDate;
   });
   eventNodes.time.forEach((node) => {
-    node.textContent = event.time;
+    node.textContent = coverTime;
   });
   eventNodes.weekday.forEach((node) => {
     node.textContent = event.weekday;
@@ -188,27 +190,13 @@ function renderCoverEventBlock(event) {
   if (!eventBlock) return;
 
   eventBlock.innerHTML = `
-    <div class="cover-event" aria-label="Data e hora do evento">
-      <div class="cover-event-col cover-event-col-plain">
-        <span class="cover-event-main cover-event-weekday-line" data-event-weekday>${escapeHtml(
-          event.weekday || "",
-        )}</span>
-      </div>
-      <span class="cover-event-separator" aria-hidden="true"></span>
-      <div class="cover-event-col cover-event-col-center">
-        <span class="cover-event-label" data-event-date-label>${escapeHtml(
-          event.dateLabel || "",
-        )}</span>
-        <span class="cover-event-main cover-event-date-short" data-event-date>${escapeHtml(
-          event.date || "",
-        )}</span>
-      </div>
-      <span class="cover-event-separator" aria-hidden="true"></span>
-      <div class="cover-event-col cover-event-col-plain">
-        <span class="cover-event-main cover-event-time-short" data-event-time>${escapeHtml(
-          event.time || "",
-        )}</span>
-      </div>
+    <div class="cover-event cover-event-stacked" aria-label="Data e hora do evento">
+      <strong class="cover-event-date-line" data-event-date>${escapeHtml(
+        formatCoverDate(event.date),
+      )}</strong>
+      <span class="cover-event-time-line" data-event-time>${escapeHtml(
+        formatCoverTime(event.time),
+      )}</span>
     </div>
   `;
 }
@@ -1013,4 +1001,58 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+}
+
+function formatCoverDate(dateText) {
+  const value = String(dateText || "").trim();
+  if (/^\d{2}\/\d{2}$/.test(value)) {
+    const [day, month] = value.split("/");
+    const monthName = getMonthName(month);
+    return `${day} ${monthName} 2026`;
+  }
+
+  if (/^\d{2}\/\s*[A-Za-zÀ-ÿ]+\s*\/\s*\d{4}$/u.test(value)) {
+    return value.replaceAll("/", "").replace(/\s+/g, " ").trim();
+  }
+
+  return value;
+}
+
+function formatCoverTime(timeText) {
+  const value = String(timeText || "").trim();
+  if (/^\d{1,2}:00H$/i.test(value)) {
+    return `às ${value.split(":")[0]}h`;
+  }
+  if (/^\d{1,2}H$/i.test(value)) {
+    return `às ${value.replace(/H$/i, "h")}`;
+  }
+  if (/^\d{1,2}:\d{2}H$/i.test(value)) {
+    return `às ${value.replace(/H$/i, "h")}`;
+  }
+  if (/^\d{1,2}:\d{2}$/.test(value)) {
+    return `às ${value}`;
+  }
+  if (/^\d{1,2}h$/i.test(value)) {
+    return `às ${value.toLowerCase()}`;
+  }
+  return value;
+}
+
+function getMonthName(monthNumber) {
+  const months = {
+    "01": "Janeiro",
+    "02": "Fevereiro",
+    "03": "Março",
+    "04": "Abril",
+    "05": "Maio",
+    "06": "Junho",
+    "07": "Julho",
+    "08": "Agosto",
+    "09": "Setembro",
+    "10": "Outubro",
+    "11": "Novembro",
+    "12": "Dezembro",
+  };
+
+  return months[monthNumber] || monthNumber;
 }
