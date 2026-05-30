@@ -70,12 +70,12 @@ img {
 .invite-page {
   width: min(calc(100% - 1rem), 560px);
   margin: 0 auto;
-  padding: 0.45rem 0 0.8rem;
+  padding: 1.35rem 0 1.7rem;
 }
 
 .cover-shell {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   border-radius: 20px;
   background: linear-gradient(180deg, rgba(249, 241, 228, 0.98), rgba(244, 233, 217, 0.98));
   box-shadow: var(--shadow-soft);
@@ -662,7 +662,7 @@ h2 {
 .cover-bottom {
   position: relative;
   z-index: 6;
-  margin-top: auto;
+  margin-top: 0.55rem;
   padding-top: 0.08rem;
   margin-bottom: -7.15rem;
   display: flex;
@@ -677,7 +677,7 @@ h2 {
   width: clamp(6.2rem, 24vw, 8.2rem);
   height: clamp(7rem, 28vw, 9.2rem);
   transform-origin: left bottom;
-  transform: translate(-4.05rem, -7.2rem);
+  transform: translate(-4.05rem, -7.75rem);
 }
 
 .basket-scene::before {
@@ -759,7 +759,7 @@ h2 {
   width: clamp(6.3rem, 23vw, 7.75rem);
   height: clamp(7.2rem, 27vw, 8.95rem);
   transform-origin: right bottom;
-  transform: translate(3.42rem, -6.9rem);
+  transform: translate(3.18rem, -7.65rem);
 }
 
 .big-bear::before {
@@ -2069,6 +2069,7 @@ h2 {
   }
 
   .cover-bottom {
+    margin-top: 0.65rem;
     margin-bottom: -7.6rem;
   }
 
@@ -2116,6 +2117,7 @@ h2 {
 
   .cover-bottom {
     gap: 0.12rem;
+    margin-top: 0.42rem;
     padding-top: 0.4rem;
     margin-bottom: -6.2rem;
   }
@@ -2297,13 +2299,13 @@ h2 {
   .basket-scene {
     width: 7.5rem;
     height: 8.8rem;
-    transform: scale(1.01) translateX(-2.76rem) translateY(-6.6rem);
+    transform: scale(1.01) translateX(-2.76rem) translateY(-7.02rem);
   }
 
   .big-bear {
     width: 9.1rem;
     height: 10.7rem;
-    transform: scale(1.01) translateX(2.26rem) translateY(-6.24rem);
+    transform: scale(1) translateX(2rem) translateY(-6.96rem);
   }
 }
 
@@ -2480,13 +2482,13 @@ h2 {
   .basket-scene {
     width: 7rem;
     height: 8.2rem;
-    transform: scale(1) translateX(-2.38rem) translateY(-5.76rem);
+    transform: scale(1) translateX(-2.38rem) translateY(-6.18rem);
   }
 
   .big-bear {
     width: 8.1rem;
     height: 9.5rem;
-    transform: scale(1.01) translateX(1.82rem) translateY(-5.46rem);
+    transform: scale(1) translateX(1.56rem) translateY(-6.08rem);
   }
 
 }
@@ -2507,17 +2509,33 @@ h2 {
   }
 
   .basket-scene {
-    transform: scale(0.98) translateX(-2.18rem) translateY(-6.06rem);
+    transform: scale(0.97) translateX(-2.18rem) translateY(-6.46rem);
   }
 
   .big-bear {
-    width: 8.7rem;
-    height: 10.3rem;
-    transform: scale(0.99) translateX(1.74rem) translateY(-5.88rem);
+    width: 8.35rem;
+    height: 9.85rem;
+    transform: scale(0.97) translateX(1.38rem) translateY(-6.48rem);
   }
 
   .cover-bottom {
     margin-bottom: -5.8rem;
+  }
+}
+
+@media (max-width: 460px) and (min-height: 820px) {
+  .cover-bottom {
+    margin-bottom: -6.35rem;
+  }
+
+  .basket-scene {
+    transform: scale(0.96) translateX(-2.28rem) translateY(-6.72rem);
+  }
+
+  .big-bear {
+    width: 7.7rem;
+    height: 9.05rem;
+    transform: scale(0.96) translateX(1.08rem) translateY(-7.02rem);
   }
 }
 
