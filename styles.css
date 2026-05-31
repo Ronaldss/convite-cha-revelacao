@@ -12,6 +12,7 @@
   --shadow-card: 0 14px 36px rgba(123, 82, 55, 0.14);
   --font-display: "DM Serif Display", serif;
   --font-ui: "Manrope", sans-serif;
+  --invite-frame-width: min(calc(100vw - 1rem), 560px);
 }
 
 * {
@@ -68,14 +69,16 @@ img {
 }
 
 .invite-page {
-  width: min(calc(100% - 1rem), 560px);
+  width: var(--invite-frame-width);
   margin: 0 auto;
   padding: 1.35rem 0 1.7rem;
+  overflow-x: clip;
 }
 
 .cover-shell {
   position: relative;
-  overflow: visible;
+  overflow-x: clip;
+  overflow-y: visible;
   border-radius: 20px;
   background: linear-gradient(180deg, rgba(249, 241, 228, 0.98), rgba(244, 233, 217, 0.98));
   box-shadow: var(--shadow-soft);
@@ -926,7 +929,7 @@ h2 {
   inset: 0;
   display: grid;
   place-items: end center;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
   background: rgba(94, 65, 47, 0.28);
   opacity: 0;
   visibility: hidden;
@@ -943,7 +946,7 @@ h2 {
 
 .panel-card {
   position: relative;
-  width: min(100%, 34rem);
+  width: min(var(--invite-frame-width), 34rem);
   max-height: min(88svh, 52rem);
   overflow: auto;
   padding: 1.4rem 1.1rem 1.2rem;
@@ -2026,8 +2029,12 @@ h2 {
 }
 
 @media (min-width: 720px) {
+  :root {
+    --invite-frame-width: min(calc(100vw - 2rem), 760px);
+  }
+
   .invite-page {
-    width: min(calc(100% - 2rem), 760px);
+    width: var(--invite-frame-width);
     padding-top: 1.2rem;
   }
 
