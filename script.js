@@ -1,4 +1,4 @@
-const fallbackConfig = {
+﻿const fallbackConfig = {
   event: {
     date: "04 Julho 2026",
     time: "às 14h",
@@ -573,8 +573,8 @@ async function confirmPendingVote() {
     triggerVoteCelebration(vote, guestName);
     ui.voteSelected.textContent =
       vote === "menina"
-        ? `${guestName} escolheu menina e fez o rosa acender nesta experiÃªncia.`
-        : `${guestName} escolheu menino e fez o azul ganhar brilho nesta experiÃªncia.`;
+        ? `${guestName} escolheu menina e fez o rosa acender nesta experiência.`
+        : `${guestName} escolheu menino e fez o azul ganhar brilho nesta experiência.`;
     hideVoteStatusMessage();
 
     if (state.guestContext) {
@@ -1056,3 +1056,6 @@ function getMonthName(monthNumber) {
 
   return months[monthNumber] || monthNumber;
 }
+
+
+

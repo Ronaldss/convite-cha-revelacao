@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
@@ -6,7 +6,7 @@
     <title>Ch&aacute; Revele&ccedil;&atilde;o</title>
     <meta
       name="description"
-      content="Convite interativo de chá revelação com localização, confirmação de presença e sugestão de presente."
+      content="Convite interativo de ch&aacute; revela&ccedil;&atilde;o com localiza&ccedil;&atilde;o, confirma&ccedil;&atilde;o de presen&ccedil;a e sugest&atilde;o de presente."
     />
     <link rel="canonical" href="https://convite-cha-revelacao.vercel.app/" />
     <meta property="og:locale" content="pt_BR" />
@@ -47,7 +47,7 @@
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
-  <body>
+  <body class="layout-main-cover">
     <div class="ambient ambient-left"></div>
     <div class="ambient ambient-right"></div>
 
@@ -87,25 +87,25 @@
               <p class="cover-kicker">Ch&aacute; Revele&ccedil;&atilde;o</p>
               <div class="cover-copy-block">
                 <p class="cover-copy">
-                  Mamãe e papai estão muito felizes com a minha chegada, e
+                  Mam&atilde;e e papai est&atilde;o muito felizes com a minha chegada, e
                   ansiosos para saber o que serei.
                 </p>
               </div>
 
               <p class="cover-name-line">
                 <span class="cover-name cover-name-left">Heitor</span>
-                <span class="cover-name-divider">Ou</span>
+                <span class="cover-name-divider">ou</span>
                 <span class="cover-name cover-name-right">Helena</span>
               </p>
 
               <div class="cover-event-block">
                 <div class="cover-event cover-event-stacked">
                   <strong class="cover-event-date-line" data-event-date>04 Julho 2026</strong>
-                  <span class="cover-event-time-line" data-event-time>Às 14:00</span>
+                  <span class="cover-event-time-line" data-event-time>&agrave;s 14:00</span>
                 </div>
               </div>
 
-              <div class="cover-actions" aria-label="Acoes principais do convite">
+              <div class="cover-actions" aria-label="A&ccedil;&otilde;es principais do convite">
                 <button class="cover-action" type="button" data-open-panel="location-panel">
                   <span class="cover-action-icon">
                     <svg
@@ -123,7 +123,7 @@
                       <path class="icon-stroke" d="M21.8 48.4c2.4 1.8 5.8 2.8 10.2 2.8 4.4 0 7.8-1 10.2-2.8" />
                     </svg>
                   </span>
-                  <span class="cover-action-label">Localização</span>
+                  <span class="cover-action-label">Localiza&ccedil;&atilde;o</span>
                 </button>
                 <button class="cover-action" type="button" data-open-panel="rsvp-panel">
                   <span class="cover-action-icon">
@@ -144,7 +144,7 @@
                       />
                     </svg>
                   </span>
-                  <span class="cover-action-label">Confirmar Presença</span>
+                  <span class="cover-action-label">Confirmar Presen&ccedil;a</span>
                 </button>
                 <button class="cover-action" type="button" data-open-panel="gift-panel">
                   <span class="cover-action-icon">
@@ -168,7 +168,7 @@
                       />
                     </svg>
                   </span>
-                  <span class="cover-action-label">Sugestão de Presente</span>
+                  <span class="cover-action-label">Sugest&atilde;o de Presente</span>
                 </button>
               </div>
 
@@ -190,13 +190,14 @@
                   src="./referencias/ursinho2.png"
                   alt=""
                 />
-
-                <img
-                  class="big-bear big-bear-image"
-                  src="./referencias/urso3.png"
-                  alt=""
-                />
               </div>
+
+              <img
+                class="big-bear big-bear-image big-bear-anchor"
+                src="./referencias/urso3.png"
+                alt=""
+                aria-hidden="true"
+              />
             </div>
           </div>
         </div>
@@ -211,10 +212,10 @@
         <p class="panel-kicker">Local do evento</p>
         <h2>Como chegar</h2>
         <p class="panel-copy">
-          Abra o ponto exato no mapa e siga direto para o endereço do evento.
+          Abra o ponto exato no mapa e siga direto para o endere&ccedil;o do evento.
         </p>
         <div class="panel-block">
-          <strong data-event-location>R. Fortaleza, 63 - Cidade Universitária, Maceió - AL, 57072-313</strong>
+          <strong data-event-location>R. Fortaleza, 63 - Cidade Universit&aacute;ria, Macei&oacute; - AL, 57072-313</strong>
         </div>
         <a
           class="panel-link"
@@ -225,10 +226,10 @@
           >Abrir no Google Maps</a
         >
         <button class="panel-link panel-link-secondary" id="copy-location-button" type="button">
-          Copiar localização
+          Copiar localiza&ccedil;&atilde;o
         </button>
         <p class="panel-copy-feedback" id="copy-location-feedback" hidden>
-          Localização copiada para compartilhar.
+          Localiza&ccedil;&atilde;o copiada para compartilhar.
         </p>
       </div>
     </section>
@@ -238,8 +239,8 @@
         <button class="panel-close" type="button" data-close-panel aria-label="Fechar painel">
           x
         </button>
-        <p class="panel-kicker">Presença</p>
-        <h2>Confirme sua presença</h2>
+        <p class="panel-kicker">Presen&ccedil;a</p>
+        <h2>Confirme sua presen&ccedil;a</h2>
         <form class="rsvp-form" id="rsvp-form">
           <label class="field">
             <span>Seu nome</span>
@@ -253,16 +254,16 @@
             />
           </label>
           <p class="field-error" id="guest-name-error" hidden>
-            Este nome não foi encontrado na lista de convidados.
+            Este nome n&atilde;o foi encontrado na lista de convidados.
           </p>
           <button class="panel-link panel-link-button" type="submit">
-            Confirmar presença
+            Confirmar presen&ccedil;a
           </button>
         </form>
         <div class="confirmation-panel" id="confirmation-panel" hidden>
-          <p class="confirmation-title">Presença confirmada</p>
+          <p class="confirmation-title">Presen&ccedil;a confirmada</p>
           <p class="confirmation-copy">
-            <span id="confirmed-name"></span>, sua participação foi registrada.
+            <span id="confirmed-name"></span>, sua participa&ccedil;&atilde;o foi registrada.
           </p>
           <button class="vote-entry" type="button" data-open-panel="vote-panel">
             Fazer meu palpite: menino ou menina
@@ -279,7 +280,7 @@
         <p class="panel-kicker">Presentes</p>
         <h2>Dois itens que ajudam bastante</h2>
         <p class="panel-copy">
-          Se desejar presentear, você pode escolher qualquer uma dessas opções.
+          Se desejar presentear, voc&ecirc; pode escolher qualquer uma dessas op&ccedil;&otilde;es.
         </p>
 
         <div class="gift-grid">
@@ -288,12 +289,12 @@
               <img
                 class="gift-image is-visible"
                 src="./referencias/fralda1.jpeg"
-                alt="Sugestão de fralda marca 1"
+                alt="Sugest&atilde;o de fralda marca 1"
               />
               <img
                 class="gift-image"
                 src="./referencias/fralda2.jpeg"
-                alt="Sugestão de fralda marca 2"
+                alt="Sugest&atilde;o de fralda marca 2"
               />
               <div class="gift-shimmer"></div>
             </div>
@@ -308,18 +309,18 @@
               <img
                 class="gift-image is-visible"
                 src="./referencias/lenco1.jpeg"
-                alt="Sugestão de lenço umedecido marca 1"
+                alt="Sugest&atilde;o de len&ccedil;o umedecido marca 1"
               />
               <img
                 class="gift-image"
                 src="./referencias/lenco2.jpeg"
-                alt="Sugestão de lenço umedecido marca 2"
+                alt="Sugest&atilde;o de len&ccedil;o umedecido marca 2"
               />
               <div class="gift-shimmer"></div>
             </div>
             <div class="gift-content">
-              <p class="gift-title">Lenço umedecido</p>
-              <p class="gift-description">Qualquer uma das opções mostradas será bem-vinda.</p>
+              <p class="gift-title">Len&ccedil;o umedecido</p>
+              <p class="gift-description">Qualquer uma das op&ccedil;&otilde;es mostradas ser&aacute; bem-vinda.</p>
             </div>
           </article>
         </div>
@@ -338,8 +339,8 @@
         </p>
 
         <div class="vote-lock" id="vote-lock">
-          <p class="vote-lock-title">Aguardando confirmação</p>
-          <p class="vote-lock-copy">Confirme sua presença para liberar esta etapa.</p>
+          <p class="vote-lock-title">Aguardando confirma&ccedil;&atilde;o</p>
+          <p class="vote-lock-copy">Confirme sua presen&ccedil;a para liberar esta etapa.</p>
         </div>
         <p class="field-error" id="vote-status-message" hidden></p>
 
@@ -347,7 +348,7 @@
           <div class="vote-confirm" id="vote-confirm" hidden>
             <p class="vote-confirm-kicker">Confirmar palpite</p>
             <p class="vote-confirm-copy" id="vote-confirm-copy">
-              Você quer confirmar este palpite?
+              Voc&ecirc; quer confirmar este palpite?
             </p>
             <div class="vote-confirm-actions">
               <button class="vote-confirm-button vote-confirm-button-secondary" type="button" id="vote-confirm-cancel">
@@ -359,7 +360,7 @@
             </div>
           </div>
           <div class="vote-history">
-            <p class="vote-history-title">Últimos palpites</p>
+            <p class="vote-history-title">&Uacute;ltimos palpites</p>
             <div class="vote-tags" id="vote-tags"></div>
           </div>
 
@@ -368,13 +369,13 @@
               <span class="vote-option-aura"></span>
               <span class="vote-option-badge">Menina</span>
               <span class="vote-title">Helena</span>
-              <span class="vote-subtitle">Toque aqui se você acha que é menina</span>
+              <span class="vote-subtitle">Toque aqui se voc&ecirc; acha que &eacute; menina</span>
             </button>
             <button class="vote-option vote-option-boy" type="button" data-vote="menino">
               <span class="vote-option-aura"></span>
               <span class="vote-option-badge">Menino</span>
               <span class="vote-title">Heitor</span>
-              <span class="vote-subtitle">Toque aqui se você acha que é menino</span>
+              <span class="vote-subtitle">Toque aqui se voc&ecirc; acha que &eacute; menino</span>
             </button>
           </div>
 
@@ -399,7 +400,7 @@
               <span></span>
             </div>
             <div class="vote-core">
-              <p class="vote-core-label">Palpites registrados nesta experiência</p>
+              <p class="vote-core-label">Palpites registrados nesta experi&ecirc;ncia</p>
               <div class="vote-orb-shell" aria-hidden="true">
                 <div class="vote-orb vote-orb-main"></div>
                 <div class="vote-orb vote-orb-side vote-orb-side-left"></div>
@@ -434,3 +435,5 @@
     <script src="./script.js"></script>
   </body>
 </html>
+
+

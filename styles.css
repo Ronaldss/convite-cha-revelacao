@@ -71,7 +71,7 @@ img {
 .invite-page {
   width: var(--invite-frame-width);
   margin: 0 auto;
-  padding: 1.35rem 0 1.7rem;
+  padding: 2.2rem 0 1.7rem;
   overflow-x: clip;
 }
 
@@ -137,7 +137,7 @@ img {
 }
 
 .cover-cloud-right {
-  top: -0.1rem;
+  top: -5.2rem;
   right: -4rem;
   animation-delay: -3.5s;
 }
@@ -169,11 +169,11 @@ img {
 
 .cover-balloon-burst {
   position: absolute;
-  top: -1.6rem;
+  top: -3.2rem;
   left: 50%;
-  width: clamp(5.8rem, 21vw, 7.1rem);
+  width: clamp(6.9rem, 24vw, 8.7rem);
   height: auto;
-  transform: translateX(-50%) scale(0.96);
+  transform: translateX(-50%) scale(1.05);
   transform-origin: center top;
 }
 
@@ -354,6 +354,10 @@ img {
   min-height: auto;
   padding-top: 5.65rem;
   text-align: center;
+}
+
+.layout-main-cover .cover-content {
+  padding-top: 7.25rem;
 }
 
 .cover-kicker,
@@ -674,6 +678,10 @@ h2 {
   gap: 0.25rem;
 }
 
+.layout-main-cover .cover-bottom {
+  justify-content: flex-start;
+}
+
 .basket-scene {
   position: relative;
   z-index: 7;
@@ -789,6 +797,21 @@ h2 {
   height: clamp(10.8rem, 39vw, 13.2rem);
   transform: translateX(0.08rem) scale(1);
   filter: drop-shadow(0 14px 24px rgba(148, 104, 75, 0.11));
+}
+
+.layout-main-cover .big-bear-anchor {
+  position: absolute;
+  right: -0.72rem;
+  bottom: -1.08rem;
+  z-index: 7;
+  width: clamp(6.9rem, 19vw, 8.7rem);
+  height: clamp(8rem, 22vw, 10.2rem);
+  transform: none;
+}
+
+.layout-main-cover .big-bear-anchor.big-bear-image {
+  width: clamp(8.6rem, 24vw, 10.9rem);
+  height: clamp(10.2rem, 29vw, 13rem);
 }
 
 .big-bear-head {
@@ -2035,7 +2058,7 @@ h2 {
 
   .invite-page {
     width: var(--invite-frame-width);
-    padding-top: 1.2rem;
+    padding-top: 2.3rem;
   }
 
   .cover-arch {
@@ -2048,12 +2071,55 @@ h2 {
     padding-top: 5.4rem;
   }
 
+  .layout-main-cover .cover-content {
+    padding-top: 7.25rem;
+  }
+
   .cover-copy {
     max-width: 22rem;
   }
 
+  .layout-main-cover .cover-copy-block {
+    margin-top: 0.9rem;
+  }
+
+  .layout-main-cover .cover-copy {
+    max-width: 23.2rem;
+    line-height: 1.28;
+  }
+
+  .layout-main-cover .cover-name-line {
+    margin-top: 0.38rem;
+  }
+
+  .layout-main-cover .cover-event-block {
+    margin-top: 0.58rem;
+  }
+
   .cover-actions {
     gap: 1rem;
+  }
+
+  .layout-main-cover .cover-actions {
+    margin-top: 1.04rem;
+    gap: 1.18rem;
+    max-width: 38.2rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .layout-main-cover .cover-action-icon {
+    width: 5.65rem;
+    height: 5.65rem;
+  }
+
+  .layout-main-cover .cover-action-label {
+    font-size: 0.98rem;
+    line-height: 1.12;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: rgba(103, 63, 38, 0.92);
+    max-width: 6.2rem;
   }
 
   .cover-action-icon {
@@ -2070,9 +2136,27 @@ h2 {
     height: 8.8rem;
   }
 
+  .layout-main-cover .basket-scene {
+    width: 10.5rem;
+    height: 11.7rem;
+    transform: scale(1) translateX(-2.55rem) translateY(-8.62rem);
+  }
+
   .big-bear {
     width: 8.4rem;
     height: 9.2rem;
+  }
+
+  .layout-main-cover .big-bear-anchor {
+    right: -1.35rem;
+    bottom: -1.14rem;
+    width: 8rem;
+    height: 9.25rem;
+  }
+
+  .layout-main-cover .big-bear-anchor.big-bear-image {
+    width: 12.1rem;
+    height: 14.3rem;
   }
 
   .cover-bottom {
@@ -2103,18 +2187,23 @@ h2 {
     padding-top: 5.15rem;
   }
 
+  .layout-main-cover .cover-content {
+    padding-top: 6.65rem;
+  }
+
   .cover-cloud-left {
     left: -3.55rem;
   }
 
   .cover-cloud-right {
+    top: -4rem;
     right: -3.55rem;
   }
 
   .cover-balloon-burst {
-    top: -1.28rem;
-    width: 6.6rem;
-    transform: translateX(-50%) scale(0.94);
+    top: -2.45rem;
+    width: 7.7rem;
+    transform: translateX(-50%) scale(1.04);
   }
 
   .cover-actions {
@@ -2314,6 +2403,18 @@ h2 {
     height: 10.7rem;
     transform: scale(1) translateX(2rem) translateY(-6.96rem);
   }
+
+  .layout-main-cover .big-bear-anchor {
+    right: -2.22rem;
+    bottom: -0.9rem;
+    width: 7.3rem;
+    height: 8.65rem;
+  }
+
+  .layout-main-cover .big-bear-anchor.big-bear-image {
+    width: 9rem;
+    height: 10.8rem;
+  }
 }
 
 @media (max-width: 360px) {
@@ -2325,6 +2426,10 @@ h2 {
   .cover-content {
     min-height: auto;
     padding-top: 5.25rem;
+  }
+
+  .layout-main-cover .cover-content {
+    padding-top: 6.5rem;
   }
 
   .cover-cloud {
@@ -2339,15 +2444,15 @@ h2 {
   }
 
   .cover-cloud-right {
-    top: 0.1rem;
+    top: -3.5rem;
     right: -3.2rem;
     transform: scale(0.98);
   }
 
   .cover-balloon-burst {
-    top: -1.02rem;
-    width: 6.2rem;
-    transform: translateX(-50%) scale(0.9);
+    top: -2rem;
+    width: 7rem;
+    transform: translateX(-50%) scale(1);
   }
 
   .cover-name-line {
@@ -2498,6 +2603,18 @@ h2 {
     transform: scale(1) translateX(1.56rem) translateY(-6.08rem);
   }
 
+  .layout-main-cover .big-bear-anchor {
+    right: -1.94rem;
+    bottom: -0.82rem;
+    width: 6.95rem;
+    height: 8.15rem;
+  }
+
+  .layout-main-cover .big-bear-anchor.big-bear-image {
+    width: 8.45rem;
+    height: 10.05rem;
+  }
+
 }
 
 @media (min-width: 390px) and (max-width: 460px) {
@@ -2506,13 +2623,14 @@ h2 {
   }
 
   .cover-cloud-right {
+    top: -4.3rem;
     right: -3rem;
   }
 
   .cover-balloon-burst {
-    top: -1.34rem;
-    width: 6.8rem;
-    transform: translateX(-50%) scale(0.95);
+    top: -2.58rem;
+    width: 7.95rem;
+    transform: translateX(-50%) scale(1.06);
   }
 
   .basket-scene {
@@ -2523,6 +2641,18 @@ h2 {
     width: 8.35rem;
     height: 9.85rem;
     transform: scale(0.97) translateX(1.38rem) translateY(-6.48rem);
+  }
+
+  .layout-main-cover .big-bear-anchor {
+    right: -2.28rem;
+    bottom: -0.98rem;
+    width: 7.15rem;
+    height: 8.4rem;
+  }
+
+  .layout-main-cover .big-bear-anchor.big-bear-image {
+    width: 8.85rem;
+    height: 10.55rem;
   }
 
   .cover-bottom {
@@ -2543,6 +2673,222 @@ h2 {
     width: 7.7rem;
     height: 9.05rem;
     transform: scale(0.96) translateX(1.08rem) translateY(-7.02rem);
+  }
+
+  .layout-main-cover .big-bear-anchor {
+    right: -2.06rem;
+    bottom: -0.86rem;
+    width: 6.95rem;
+    height: 8.2rem;
+  }
+
+  .layout-main-cover .big-bear-anchor.big-bear-image {
+    width: 8.55rem;
+    height: 10.2rem;
+  }
+}
+
+@media (min-width: 345px) and (max-width: 380px) and (min-height: 780px) and (max-height: 860px) {
+  .layout-refactored-cover .invite-page {
+    min-height: 100svh;
+    padding-top: 0.45rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .layout-refactored-cover .cover-shell {
+    min-height: calc(100svh - 0.7rem);
+  }
+
+  .layout-refactored-cover .cover-arch {
+    min-height: calc(100svh - 1.35rem);
+    margin: 0.34rem;
+    padding-top: 2.9rem;
+    padding-bottom: 0.78rem;
+  }
+
+  .layout-refactored-cover .cover-content {
+    min-height: calc(100svh - 8.6rem);
+    padding-top: 5.15rem;
+  }
+
+  .layout-refactored-cover .cover-copy {
+    max-width: 15.2rem;
+  }
+
+  .layout-refactored-cover .cover-name-line {
+    margin-top: 0.22rem;
+  }
+
+  .layout-refactored-cover .cover-event-block {
+    margin-top: 0.34rem;
+  }
+
+  .layout-refactored-cover .cover-actions {
+    margin-top: 0.86rem;
+  }
+
+  .layout-refactored-cover .cover-note {
+    margin-top: auto;
+    max-width: 13.7rem;
+  }
+
+  .layout-refactored-cover .cover-palette {
+    margin-top: 0.3rem;
+  }
+
+  .layout-refactored-cover .cover-bottom {
+    margin-top: 0.42rem;
+    margin-bottom: -6.45rem;
+  }
+
+  .layout-refactored-cover .basket-scene {
+    transform: scale(1) translateX(-2.64rem) translateY(-6.92rem);
+  }
+
+  .layout-refactored-cover .big-bear {
+    width: 8rem;
+    height: 9.35rem;
+    transform: scale(1) translateX(1.26rem) translateY(-6.92rem);
+  }
+}
+
+@media (min-width: 700px) and (max-width: 740px) and (min-height: 1500px) and (max-height: 1660px) {
+  .layout-refactored-cover .invite-page {
+    min-height: 100svh;
+    padding-top: 0.08rem;
+    padding-bottom: 0.08rem;
+  }
+
+  .layout-refactored-cover .cover-shell {
+    min-height: calc(100svh - 0.16rem);
+  }
+
+  .layout-refactored-cover .cover-arch {
+    min-height: calc(100svh - 0.45rem);
+    margin: 0.12rem;
+    padding-top: 4.9rem;
+    padding-bottom: 0.82rem;
+    padding-left: 1.15rem;
+    padding-right: 1.15rem;
+    border-radius: 310px 310px 14px 14px;
+  }
+
+  .layout-refactored-cover .cover-arch::before {
+    inset: 0.22rem;
+    border-radius: 306px 306px 10px 10px;
+  }
+
+  .layout-refactored-cover .cover-content {
+    min-height: calc(100svh - 10.2rem);
+    padding-top: 8.55rem;
+    display: grid;
+    grid-template-rows: auto auto auto auto auto 1fr auto auto auto;
+    align-content: stretch;
+  }
+
+  .layout-refactored-cover .cover-cloud {
+    width: 18.2rem;
+  }
+
+  .layout-refactored-cover .cover-cloud-left {
+    left: -4.8rem;
+    top: 0.55rem;
+  }
+
+  .layout-refactored-cover .cover-cloud-right {
+    right: -4.8rem;
+    top: 0.55rem;
+  }
+
+  .layout-refactored-cover .cover-balloon-burst {
+    top: -1.08rem;
+    width: 8.4rem;
+    transform: translateX(-50%) scale(0.98);
+  }
+
+  .layout-refactored-cover .cover-kicker {
+    font-size: 3.15rem;
+    line-height: 0.94;
+  }
+
+  .layout-refactored-cover .cover-copy {
+    max-width: 23rem;
+    font-size: 1.08rem;
+    line-height: 1.24;
+  }
+
+  .layout-refactored-cover .cover-name {
+    font-size: 4.35rem;
+  }
+
+  .layout-refactored-cover .cover-name-divider {
+    font-size: 1.38rem;
+  }
+
+  .layout-refactored-cover .cover-event-block {
+    margin-top: 0.34rem;
+  }
+
+  .layout-refactored-cover .cover-event-date-line {
+    font-size: 1.95rem;
+  }
+
+  .layout-refactored-cover .cover-event-time-line {
+    font-size: 1.22rem;
+  }
+
+  .layout-refactored-cover .cover-actions {
+    margin-top: 1.36rem;
+    gap: 1.1rem;
+  }
+
+  .layout-refactored-cover .cover-action-icon {
+    width: 6.2rem;
+    height: 6.2rem;
+  }
+
+  .layout-refactored-cover .cover-action-label {
+    font-size: 1rem;
+    max-width: 6.8rem;
+    min-height: 2.8rem;
+  }
+
+  .layout-refactored-cover .cover-note {
+    margin-top: auto;
+    max-width: 18rem;
+    font-size: 0.88rem;
+    line-height: 1.22;
+  }
+
+  .layout-refactored-cover .cover-palette {
+    margin-top: 0.3rem;
+  }
+
+  .layout-refactored-cover .cover-swatch {
+    width: 3.28rem;
+    height: 3.28rem;
+  }
+
+  .layout-refactored-cover .cover-bottom {
+    margin-top: 0.28rem;
+    margin-bottom: -6.38rem;
+  }
+
+  .layout-refactored-cover .basket-scene {
+    width: 9.6rem;
+    height: 11rem;
+    transform: translate(-3.65rem, -6.85rem);
+  }
+
+  .layout-refactored-cover .big-bear {
+    width: 9.6rem;
+    height: 11.1rem;
+    transform: translate(1.46rem, -6.82rem);
+  }
+
+  .layout-refactored-cover .big-bear-image {
+    width: 11.4rem;
+    height: 13.45rem;
   }
 }
 
