@@ -7,3 +7,7 @@ links-convidados.csv
 supabase-seed-guests.sql
 convidados-invite-codes.md
 supabase-add-*.sql
+supabase-update-*.sql
+supabase-cleanup-*.sql
+supabase-fix-*.sql
+tmp_current_guests.json
