@@ -855,45 +855,36 @@ function createSupabaseStore() {
       return name;
     },
     async getGuestByInviteCode(code) {
-      const response = await fetch(
-        `${url}/rest/v1/${guestsTable}?select=id,name,display_name,invite_code,attendance_confirmed,gender_votes(vote,created_at,guest_display_name,guest_name)&invite_code=eq.${encodeURIComponent(
-          code,
-        )}&limit=1`,
-        { headers },
-      );
+      const response = await fetch(`${url}/rest/v1/rpc/get_invite_guest`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ p_invite_code: code }),
+      });
       const data = await response.json();
       const guest = Array.isArray(data) ? data[0] : null;
       if (!guest) return null;
 
-      const existingVote = Array.isArray(guest.gender_votes) ? guest.gender_votes[0] : null;
       return {
         id: guest.id,
         name: guest.name,
         displayName: guest.display_name || guest.name,
         inviteCode: guest.invite_code,
         attendanceConfirmed: guest.attendance_confirmed,
-        existingVote: existingVote
+        existingVote: guest.existing_vote
           ? {
-              name:
-                existingVote.guest_display_name ||
-                existingVote.guest_name ||
-                guest.display_name ||
-                guest.name,
-              vote: existingVote.vote,
-              createdAt: existingVote.created_at,
+              name: guest.existing_vote_name || guest.display_name || guest.name,
+              vote: guest.existing_vote,
+              createdAt: guest.existing_vote_created_at,
             }
           : null,
       };
     },
     async confirmInviteGuest(guestContext) {
-      await fetch(
-        `${url}/rest/v1/${guestsTable}?invite_code=eq.${encodeURIComponent(guestContext.inviteCode)}`,
-        {
-          method: "PATCH",
-          headers,
-          body: JSON.stringify({ attendance_confirmed: true }),
-        },
-      );
+      await fetch(`${url}/rest/v1/rpc/confirm_invite_attendance`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ p_invite_code: guestContext.inviteCode }),
+      });
 
       localStorage.setItem(storageKeys.guest, guestContext.displayName || guestContext.name);
       return {
@@ -902,13 +893,15 @@ function createSupabaseStore() {
       };
     },
     async getVotes() {
-      const response = await fetch(
-        `${url}/rest/v1/${votesTable}?select=guest_name,guest_display_name,vote,created_at&order=created_at.desc`,
-        { headers },
-      );
+      const response = await fetch(`${url}/rest/v1/rpc/list_public_votes`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({}),
+      });
       const data = await response.json();
       return Array.isArray(data)
         ? data.map((item) => ({
+            guestId: item.guest_id || null,
             name: item.guest_display_name || item.guest_name,
             vote: item.vote,
             createdAt: item.created_at,

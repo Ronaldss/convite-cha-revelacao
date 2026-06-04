@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel do Ch&aacute; Revele&ccedil;&atilde;o</title>
+    <meta
+      name="description"
+      content="Painel administrativo do convite com presen&ccedil;as, palpites e resumo do evento."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./painel.css" />
+  </head>
+  <body>
+    <div class="admin-ambient admin-ambient-left"></div>
+    <div class="admin-ambient admin-ambient-right"></div>
+
+    <main class="admin-page">
+      <section class="admin-shell">
+        <header class="admin-hero">
+          <div>
+            <p class="admin-kicker">Painel privado</p>
+            <h1>Painel do ch&aacute; revela&ccedil;&atilde;o</h1>
+            <p class="admin-subtitle">
+              Acompanhe convidados, presen&ccedil;as e palpites de forma clara no celular.
+            </p>
+          </div>
+          <div class="admin-hero-actions">
+            <button class="admin-secondary-button" id="admin-print-button" type="button" hidden>
+              Baixar PDF
+            </button>
+            <button class="admin-secondary-button" id="admin-logout-button" type="button" hidden>
+              Sair
+            </button>
+          </div>
+        </header>
+
+        <section class="admin-card admin-auth-card" id="admin-auth-card">
+          <p class="admin-card-kicker">Acesso dos pais</p>
+          <h2>Entrar com magic link</h2>
+          <p class="admin-copy">
+            Informe o e-mail autorizado. Vamos enviar um link seguro para abrir este painel.
+          </p>
+
+          <form class="admin-auth-form" id="admin-login-form">
+            <label class="admin-field">
+              <span>E-mail</span>
+              <input
+                id="admin-email"
+                name="email"
+                type="email"
+                inputmode="email"
+                autocomplete="email"
+                placeholder="seuemail@exemplo.com"
+                required
+              />
+            </label>
+            <button class="admin-primary-button" id="admin-login-button" type="submit">
+              Enviar link de acesso
+            </button>
+          </form>
+
+          <p class="admin-feedback" id="admin-auth-feedback" hidden></p>
+        </section>
+
+        <section class="admin-dashboard" id="admin-dashboard" hidden>
+          <section class="admin-summary-grid" id="admin-summary-grid">
+            <article class="admin-stat-card">
+              <p class="admin-stat-label">Convidados</p>
+              <strong class="admin-stat-value" id="stat-total-guests">0</strong>
+              <span class="admin-stat-note">base atual</span>
+            </article>
+            <article class="admin-stat-card">
+              <p class="admin-stat-label">Confirmados</p>
+              <strong class="admin-stat-value" id="stat-confirmed">0</strong>
+              <span class="admin-stat-note" id="stat-confirmed-rate">0%</span>
+            </article>
+            <article class="admin-stat-card">
+              <p class="admin-stat-label">Pendentes</p>
+              <strong class="admin-stat-value" id="stat-pending">0</strong>
+              <span class="admin-stat-note">ainda sem resposta</span>
+            </article>
+            <article class="admin-stat-card">
+              <p class="admin-stat-label">Palpites</p>
+              <strong class="admin-stat-value" id="stat-total-votes">0</strong>
+              <span class="admin-stat-note">votos &uacute;nicos</span>
+            </article>
+            <article class="admin-stat-card admin-stat-card-accent-girl">
+              <p class="admin-stat-label">Helena</p>
+              <strong class="admin-stat-value" id="stat-girl-votes">0</strong>
+              <span class="admin-stat-note" id="stat-girl-rate">0%</span>
+            </article>
+            <article class="admin-stat-card admin-stat-card-accent-boy">
+              <p class="admin-stat-label">Heitor</p>
+              <strong class="admin-stat-value" id="stat-boy-votes">0</strong>
+              <span class="admin-stat-note" id="stat-boy-rate">0%</span>
+            </article>
+          </section>
+
+          <section class="admin-chart-grid">
+            <article class="admin-card admin-chart-card">
+              <div class="admin-card-header">
+                <div>
+                  <p class="admin-card-kicker">Presen&ccedil;a</p>
+                  <h2>Resumo de confirma&ccedil;&otilde;es</h2>
+                </div>
+              </div>
+              <div class="admin-chart-layout">
+                <div class="admin-donut" id="presence-donut" aria-hidden="true">
+                  <div class="admin-donut-hole">
+                    <strong id="presence-donut-center">0%</strong>
+                    <span>confirmado</span>
+                  </div>
+                </div>
+                <div class="admin-legend">
+                  <div class="admin-legend-item">
+                    <span class="admin-legend-dot admin-legend-dot-confirmed"></span>
+                    <div>
+                      <strong id="presence-confirmed-legend">0</strong>
+                      <span>Confirmados</span>
+                    </div>
+                  </div>
+                  <div class="admin-legend-item">
+                    <span class="admin-legend-dot admin-legend-dot-pending"></span>
+                    <div>
+                      <strong id="presence-pending-legend">0</strong>
+                      <span>Pendentes</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="admin-card admin-chart-card">
+              <div class="admin-card-header">
+                <div>
+                  <p class="admin-card-kicker">Palpites</p>
+                  <h2>Como est&aacute; a disputa</h2>
+                </div>
+              </div>
+              <div class="admin-chart-layout">
+                <div class="admin-donut admin-donut-votes" id="vote-donut" aria-hidden="true">
+                  <div class="admin-donut-hole">
+                    <strong id="vote-donut-center">0</strong>
+                    <span>palpites</span>
+                  </div>
+                </div>
+                <div class="admin-legend">
+                  <div class="admin-legend-item">
+                    <span class="admin-legend-dot admin-legend-dot-girl"></span>
+                    <div>
+                      <strong id="vote-girl-legend">0</strong>
+                      <span>Helena</span>
+                    </div>
+                  </div>
+                  <div class="admin-legend-item">
+                    <span class="admin-legend-dot admin-legend-dot-boy"></span>
+                    <div>
+                      <strong id="vote-boy-legend">0</strong>
+                      <span>Heitor</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="admin-bar-compare">
+                <div class="admin-bar-track">
+                  <span class="admin-bar-fill admin-bar-fill-girl" id="vote-girl-bar"></span>
+                </div>
+                <div class="admin-bar-track">
+                  <span class="admin-bar-fill admin-bar-fill-boy" id="vote-boy-bar"></span>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="admin-card admin-controls-card">
+            <div class="admin-card-header">
+              <div>
+                <p class="admin-card-kicker">Convidados</p>
+                <h2>Buscar e filtrar</h2>
+              </div>
+            </div>
+            <div class="admin-controls-grid">
+              <label class="admin-field">
+                <span>Buscar nome</span>
+                <input
+                  id="guest-search"
+                  type="search"
+                  inputmode="search"
+                  placeholder="Digite um nome"
+                />
+              </label>
+              <label class="admin-field">
+                <span>Presen&ccedil;a</span>
+                <select id="attendance-filter">
+                  <option value="all">Todos</option>
+                  <option value="confirmed">Confirmados</option>
+                  <option value="pending">Pendentes</option>
+                </select>
+              </label>
+              <label class="admin-field">
+                <span>Palpite</span>
+                <select id="vote-filter">
+                  <option value="all">Todos</option>
+                  <option value="voted">J&aacute; votaram</option>
+                  <option value="not_voted">Ainda n&atilde;o votaram</option>
+                  <option value="menina">Helena</option>
+                  <option value="menino">Heitor</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <section class="admin-card">
+            <div class="admin-card-header">
+              <div>
+                <p class="admin-card-kicker">Vis&atilde;o geral</p>
+                <h2>Lista de convidados</h2>
+              </div>
+              <span class="admin-inline-note" id="guest-results-note">0 resultados</span>
+            </div>
+            <div class="admin-guest-list" id="admin-guest-list"></div>
+          </section>
+
+          <section class="admin-card">
+            <div class="admin-card-header">
+              <div>
+                <p class="admin-card-kicker">&Uacute;ltimos movimentos</p>
+                <h2>Palpites recentes</h2>
+              </div>
+            </div>
+            <div class="admin-activity-list" id="admin-activity-list"></div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <script src="./config.js"></script>
+    <script src="./painel.js"></script>
+  </body>
+</html>
