@@ -493,6 +493,34 @@ select {
   margin-top: 0.8rem;
 }
 
+.admin-guest-actions {
+  margin-top: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-invite-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.4rem;
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #c19167 0%, #9e6c4b 100%);
+  color: #fff;
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  box-shadow: 0 10px 20px rgba(157, 109, 76, 0.18);
+}
+
+.admin-action-hint {
+  font-size: 0.82rem;
+  color: rgba(106, 65, 45, 0.58);
+}
+
 .admin-chip {
   display: inline-flex;
   align-items: center;

@@ -348,6 +348,8 @@ function renderGuestList() {
           }</span>`
         : '<span class="admin-chip admin-chip-empty">Ainda não votou</span>';
 
+      const sendInviteButton = buildInviteAction(guest);
+
       return `
         <article class="admin-guest-item">
           <div class="admin-guest-top">
@@ -359,6 +361,9 @@ function renderGuestList() {
           <div class="admin-chip-row">
             ${attendanceChip}
             ${voteChip}
+          </div>
+          <div class="admin-guest-actions">
+            ${sendInviteButton}
           </div>
         </article>
       `;
@@ -600,6 +605,55 @@ function formatGuestMeta(guest) {
   const phone = guest.phone || "telefone não informado";
   const invite = guest.inviteCode ? `convite ${guest.inviteCode.slice(-6)}` : "sem código";
   return `${phone} • ${invite}`;
+}
+
+function buildInviteAction(guest) {
+  if (!guest.inviteCode || !guest.phone) {
+    return '<span class="admin-action-hint">Sem telefone para envio direto</span>';
+  }
+
+  const whatsappUrl = buildWhatsAppUrl(guest);
+  return `
+    <a
+      class="admin-invite-button"
+      href="${escapeHtml(whatsappUrl)}"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Enviar convite
+    </a>
+  `;
+}
+
+function buildWhatsAppUrl(guest) {
+  const phone = normalizeBrazilianPhone(guest.phone);
+  const inviteLink = buildInviteLink(guest.inviteCode);
+  const message =
+    `Olá! Segue seu convite do chá revelação.%0A%0A` +
+    `${inviteLink}%0A%0A` +
+    `Abra o link para confirmar presença e deixar seu palpite.`;
+
+  if (phone) {
+    return `https://wa.me/${phone}?text=${message}`;
+  }
+
+  return `https://wa.me/?text=${message}`;
+}
+
+function buildInviteLink(inviteCode) {
+  const paramName = painelConfig.guests?.inviteParamName || "invite";
+  const origin = window.location.origin?.startsWith("http")
+    ? window.location.origin
+    : "https://convite-cha-revelacao.vercel.app";
+  return `${origin}/?${encodeURIComponent(paramName)}=${encodeURIComponent(inviteCode)}`;
+}
+
+function normalizeBrazilianPhone(value) {
+  const digits = String(value || "").replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.startsWith("55") && digits.length >= 12) return digits;
+  if (digits.length === 10 || digits.length === 11) return `55${digits}`;
+  return digits;
 }
 
 function formatDateTime(value) {
