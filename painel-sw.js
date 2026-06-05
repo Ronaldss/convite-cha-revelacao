@@ -1,12 +1,12 @@
-const PANEL_CACHE = "painel-cache-v2";
+const PANEL_CACHE = "painel-cache-v3";
 const PANEL_ASSETS = [
-  "./painel.html",
-  "./painel.css",
-  "./painel.js",
-  "./painel.webmanifest",
-  "./painel-icon-192.png",
-  "./painel-icon-512.png",
-  "./config.js",
+  "/painel.html",
+  "/painel.css",
+  "/painel.js",
+  "/painel.webmanifest",
+  "/painel-icon-192.png",
+  "/painel-icon-512.png",
+  "/config.js",
 ];
 
 self.addEventListener("install", (event) => {
@@ -32,6 +32,16 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
+  const requestUrl = new URL(event.request.url);
+  const isSameOrigin = requestUrl.origin === self.location.origin;
+
+  if (event.request.mode === "navigate" && isSameOrigin) {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match("/painel.html")),
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cached) => {
       if (cached) return cached;
@@ -46,7 +56,7 @@ self.addEventListener("fetch", (event) => {
           caches.open(PANEL_CACHE).then((cache) => cache.put(event.request, cloned));
           return response;
         })
-        .catch(() => caches.match("./painel.html"));
+        .catch(() => caches.match("/painel.html"));
     }),
   );
 });

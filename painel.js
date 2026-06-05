@@ -61,7 +61,7 @@ const state = {
 bootstrap().catch((error) => {
   console.error("Falha ao iniciar o painel:", error);
   showAuthFeedback(
-    "NÃ£o foi possÃ­vel iniciar o painel agora. Verifique a configuraÃ§Ã£o e tente novamente.",
+    "Nao foi possi­vel iniciar o painel agora. Verifique a configuracao e tente novamente.",
     true,
   );
 });
@@ -775,5 +775,6 @@ async function registerServiceWorker() {
     console.warn("NÃ£o foi possÃ­vel registrar o service worker do painel.", error);
   }
 }
+
 
 
