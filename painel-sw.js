@@ -1,11 +1,12 @@
-const PANEL_CACHE = "painel-cache-v1";
+const PANEL_CACHE = "painel-cache-v2";
 const PANEL_ASSETS = [
   "./painel.html",
   "./painel.css",
   "./painel.js",
+  "./painel.webmanifest",
+  "./painel-icon-192.png",
+  "./painel-icon-512.png",
   "./config.js",
-  "./referencias/urso3.png",
-  "./referencias/ursoBalao.png",
 ];
 
 self.addEventListener("install", (event) => {

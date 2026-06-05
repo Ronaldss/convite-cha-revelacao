@@ -3,23 +3,32 @@
   "short_name": "Painel Chá",
   "description": "Painel privado dos pais para acompanhar convidados, presenças e palpites.",
   "lang": "pt-BR",
+  "id": "./painel.html",
   "start_url": "./painel.html",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "window-controls-overlay"],
   "background_color": "#fbf6ef",
   "theme_color": "#f6ecdc",
+  "prefer_related_applications": false,
   "icons": [
     {
-      "src": "./referencias/urso3.png",
-      "sizes": "1024x1515",
+      "src": "./painel-icon-192.png",
+      "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./referencias/ursoBalao.png",
-      "sizes": "1024x1536",
+      "src": "./painel-icon-512.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "./painel-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

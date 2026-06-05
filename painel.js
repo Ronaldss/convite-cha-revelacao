@@ -707,7 +707,9 @@ async function handleInstallClick() {
     return;
   }
 
-  showInstallHint(getManualInstallText());
+  const message = getManualInstallText();
+  showInstallHint(message);
+  window.alert(message);
 }
 
 function updateInstallUI() {
