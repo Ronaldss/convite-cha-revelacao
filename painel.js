@@ -608,11 +608,28 @@ function formatGuestMeta(guest) {
 }
 
 function buildInviteAction(guest) {
-  if (!guest.inviteCode || !guest.phone) {
-    return '<span class="admin-action-hint">Sem telefone para envio direto</span>';
+  if (!guest.inviteCode) {
+    return '<span class="admin-action-hint">Sem link individual disponível</span>';
   }
 
   const whatsappUrl = buildWhatsAppUrl(guest);
+  const copyButton = `
+    <button
+      class="admin-copy-button"
+      type="button"
+      onclick="window.copyInviteMessage('${escapeJs(guest.displayName)}', '${escapeJs(guest.inviteCode)}')"
+    >
+      Copiar convite
+    </button>
+  `;
+
+  if (!guest.phone || !normalizeBrazilianPhone(guest.phone)) {
+    return `
+      ${copyButton}
+      <span class="admin-action-hint">Telefone sem formato válido para envio direto</span>
+    `;
+  }
+
   return `
     <a
       class="admin-invite-button"
@@ -622,6 +639,7 @@ function buildInviteAction(guest) {
     >
       Enviar convite
     </a>
+    ${copyButton}
   `;
 }
 
@@ -651,6 +669,30 @@ function buildInviteLink(inviteCode) {
     : "https://convite-cha-revelacao.vercel.app";
   return `${origin}/?${encodeURIComponent(paramName)}=${encodeURIComponent(inviteCode)}`;
 }
+
+async function copyInviteMessage(guestName, inviteCode) {
+  const inviteLink = buildInviteLink(inviteCode);
+  const message = [
+    inviteLink,
+    "",
+    "Olá! Com muito carinho, estamos enviando seu convite para o nosso chá revelação.",
+    "Será uma alegria ter você com a gente nesse momento tão especial.",
+    "Abra o link para confirmar sua presença e deixar seu palpite.",
+  ].join("\n");
+
+  try {
+    await navigator.clipboard.writeText(message);
+    showAuthFeedback(`Convite de ${guestName} copiado.`, false);
+  } catch (error) {
+    console.error(error);
+    showAuthFeedback(
+      "Não foi possível copiar automaticamente. Tente novamente pelo navegador.",
+      true,
+    );
+  }
+}
+
+window.copyInviteMessage = copyInviteMessage;
 
 function normalizeBrazilianPhone(value) {
   const digits = String(value || "").replace(/\D/g, "").replace(/^0+/, "");
@@ -687,6 +729,13 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+}
+
+function escapeJs(value) {
+  return String(value)
+    .replaceAll("\\", "\\\\")
+    .replaceAll("'", "\\'")
+    .replaceAll('"', '\\"');
 }
 
 function registerInstallPrompt() {
@@ -782,4 +831,3 @@ async function registerServiceWorker() {
     console.warn("Não foi possível registrar o service worker do painel.", error);
   }
 }
-
