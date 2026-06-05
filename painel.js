@@ -714,23 +714,24 @@ function updateInstallUI() {
   const isStandalone = window.matchMedia?.("(display-mode: standalone)")?.matches;
   const installState = localStorage.getItem(INSTALL_STATE_STORAGE_KEY);
   const canPromptInstall = Boolean(state.installPromptEvent) && !isStandalone;
+  const shouldShowButton = !isStandalone;
 
   if (ui.installButton) {
-    ui.installButton.hidden = !canPromptInstall;
+    ui.installButton.hidden = !shouldShowButton;
   }
 
   if (isStandalone) {
-    showInstallHint("Este painel já está instalado neste aparelho.");
+    showInstallHint("Painel instalado neste aparelho.");
     return;
   }
 
   if (canPromptInstall) {
-    showInstallHint("Depois do primeiro acesso, toque em instalar para abrir este painel como app no celular.");
+    showInstallHint("Toque em instalar para deixar este painel como app no celular.");
     return;
   }
 
   if (installState === "installed") {
-    showInstallHint("Este painel já pode ser aberto como app neste aparelho.");
+    showInstallHint("Este painel já pode ser aberto como app.");
     return;
   }
 
@@ -744,7 +745,17 @@ function showInstallHint(message) {
 }
 
 function getManualInstallText() {
-  return "Se o botão de instalar não aparecer, use o menu do navegador e escolha Adicionar à tela inicial ou Instalar aplicativo.";
+  const userAgent = navigator.userAgent.toLowerCase();
+
+  if (userAgent.includes("iphone") || userAgent.includes("ipad")) {
+    return "No iPhone/iPad, use Compartilhar e depois Adicionar à Tela de Início.";
+  }
+
+  if (userAgent.includes("android")) {
+    return "No Android, use o menu do navegador e escolha Instalar app ou Adicionar à tela inicial.";
+  }
+
+  return "Use o menu do navegador e escolha Instalar aplicativo ou Adicionar à tela inicial.";
 }
 
 async function registerServiceWorker() {
