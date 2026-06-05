@@ -2,15 +2,19 @@ const painelConfig = window.CONVITE_CONFIG || {};
 const supabaseConfig = painelConfig.supabase || {};
 
 const AUTH_STORAGE_KEY = "convite-admin-session";
-const PAINEL_REDIRECT_FALLBACK = "https://convite-cha-revelacao.vercel.app/painel.html";
+const INSTALL_STATE_STORAGE_KEY = "convite-admin-install-state";
+const PANEL_SW_PATH = "./painel-sw.js";
 
 const ui = {
   authCard: document.getElementById("admin-auth-card"),
   dashboard: document.getElementById("admin-dashboard"),
   loginForm: document.getElementById("admin-login-form"),
   loginButton: document.getElementById("admin-login-button"),
+  installButton: document.getElementById("admin-install-button"),
   emailInput: document.getElementById("admin-email"),
+  passwordInput: document.getElementById("admin-password"),
   authFeedback: document.getElementById("admin-auth-feedback"),
+  installHint: document.getElementById("admin-install-hint"),
   printButton: document.getElementById("admin-print-button"),
   logoutButton: document.getElementById("admin-logout-button"),
   totalGuests: document.getElementById("stat-total-guests"),
@@ -45,6 +49,8 @@ const state = {
   user: null,
   guests: [],
   votes: [],
+  guestRows: [],
+  installPromptEvent: null,
   filters: {
     search: "",
     attendance: "all",
@@ -55,23 +61,21 @@ const state = {
 bootstrap().catch((error) => {
   console.error("Falha ao iniciar o painel:", error);
   showAuthFeedback(
-    "N\u00e3o foi poss\u00edvel iniciar o painel agora. Verifique a configura\u00e7\u00e3o e tente novamente.",
+    "Não foi possível iniciar o painel agora. Verifique a configuração e tente novamente.",
     true,
   );
 });
 
 async function bootstrap() {
   if (!isSupabaseConfigured()) {
-    showAuthFeedback(
-      "O painel precisa do Supabase configurado para funcionar.",
-      true,
-    );
+    showAuthFeedback("O painel precisa do Supabase configurado para funcionar.", true);
     ui.loginButton.disabled = true;
     return;
   }
 
   bindEvents();
-  hydrateSessionFromUrl();
+  registerInstallPrompt();
+  await registerServiceWorker();
 
   const session = await restoreSession();
   if (!session) {
@@ -85,7 +89,8 @@ async function bootstrap() {
 }
 
 function bindEvents() {
-  ui.loginForm?.addEventListener("submit", handleMagicLinkRequest);
+  ui.loginForm?.addEventListener("submit", handlePasswordLogin);
+  ui.installButton?.addEventListener("click", handleInstallClick);
   ui.printButton?.addEventListener("click", () => window.print());
   ui.logoutButton?.addEventListener("click", handleLogout);
   ui.guestSearch?.addEventListener("input", (event) => {
@@ -102,68 +107,57 @@ function bindEvents() {
   });
 }
 
-async function handleMagicLinkRequest(event) {
+async function handlePasswordLogin(event) {
   event.preventDefault();
+
   const email = ui.emailInput?.value.trim().toLowerCase();
-  if (!email) return;
+  const password = ui.passwordInput?.value || "";
+  if (!email || !password) return;
 
   ui.loginButton.disabled = true;
-  showAuthFeedback("Enviando link de acesso...", false);
+  showAuthFeedback("Entrando no painel...", false);
 
   try {
-    const response = await fetch(`${supabaseConfig.url}/auth/v1/otp`, {
-      method: "POST",
-      headers: {
-        apikey: supabaseConfig.anonKey,
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${supabaseConfig.url}/auth/v1/token?grant_type=password`,
+      {
+        method: "POST",
+        headers: {
+          apikey: supabaseConfig.anonKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
       },
-      body: JSON.stringify({
-        email,
-        create_user: true,
-        email_redirect_to: getPanelRedirectUrl(),
-      }),
-    });
+    );
 
+    const payload = await safeParseJson(response);
     if (!response.ok) {
-      throw new Error("Falha ao enviar magic link.");
+      throw new Error(
+        payload?.error_description ||
+          payload?.message ||
+          payload?.msg_description ||
+          "Falha ao autenticar no painel.",
+      );
     }
 
-    showAuthFeedback(
-      "Link enviado. Abra o e-mail no celular dos pais para entrar no painel.",
-      false,
-    );
+    const session = {
+      accessToken: payload.access_token,
+      refreshToken: payload.refresh_token,
+      expiresAt: Date.now() + Number(payload.expires_in || 3600) * 1000,
+    };
+
+    saveSession(session);
+    state.session = session;
+    state.user = await fetchCurrentUser();
+    if (ui.passwordInput) ui.passwordInput.value = "";
+    await loadDashboard();
+    showAuthFeedback("Painel liberado neste aparelho.", false);
   } catch (error) {
     console.error(error);
-    showAuthFeedback(
-      "N\u00e3o foi poss\u00edvel enviar o link agora. Verifique o e-mail e tente novamente.",
-      true,
-    );
+    showAuthFeedback(normalizeAuthErrorMessage(error), true);
   } finally {
     ui.loginButton.disabled = false;
   }
-}
-
-function hydrateSessionFromUrl() {
-  const hash = window.location.hash.startsWith("#")
-    ? window.location.hash.slice(1)
-    : "";
-  if (!hash) return;
-
-  const params = new URLSearchParams(hash);
-  const accessToken = params.get("access_token");
-  const refreshToken = params.get("refresh_token");
-  const expiresIn = Number(params.get("expires_in") || "0");
-
-  if (!accessToken) return;
-
-  const session = {
-    accessToken,
-    refreshToken,
-    expiresAt: Date.now() + expiresIn * 1000,
-  };
-
-  saveSession(session);
-  history.replaceState({}, document.title, window.location.pathname);
 }
 
 async function restoreSession() {
@@ -203,15 +197,19 @@ async function refreshSession(refreshToken) {
     },
   );
 
+  const payload = await safeParseJson(response);
   if (!response.ok) {
-    throw new Error("N\u00e3o foi poss\u00edvel renovar a sess\u00e3o.");
+    throw new Error(
+      payload?.error_description ||
+        payload?.message ||
+        "Não foi possível renovar a sessão.",
+    );
   }
 
-  const data = await response.json();
   return {
-    accessToken: data.access_token,
-    refreshToken: data.refresh_token || refreshToken,
-    expiresAt: Date.now() + Number(data.expires_in || 3600) * 1000,
+    accessToken: payload.access_token,
+    refreshToken: payload.refresh_token || refreshToken,
+    expiresAt: Date.now() + Number(payload.expires_in || 3600) * 1000,
   };
 }
 
@@ -219,7 +217,7 @@ async function fetchCurrentUser() {
   const response = await authFetch(`${supabaseConfig.url}/auth/v1/user`);
   const user = await response.json();
   if (!response.ok) {
-    throw new Error("N\u00e3o foi poss\u00edvel carregar o usu\u00e1rio autenticado.");
+    throw new Error("Não foi possível carregar o usuário autenticado.");
   }
   return user;
 }
@@ -233,21 +231,18 @@ async function loadDashboard() {
     state.guests = guests;
     state.votes = votes;
     renderDashboard();
-    ui.authFeedback.hidden = true;
+    if (ui.authFeedback) ui.authFeedback.hidden = true;
   } catch (error) {
     console.error(error);
     if (isAccessDenied(error)) {
       showAuthFeedback(
-        "Este e-mail entrou, mas ainda n\u00e3o est\u00e1 autorizado para visualizar o painel. Adicione-o na tabela admin_users do Supabase.",
+        "Este e-mail entrou, mas ainda não está autorizado para visualizar o painel. Adicione-o na tabela admin_users do Supabase.",
         true,
       );
     } else {
-      showAuthFeedback(
-        "N\u00e3o foi poss\u00edvel carregar os dados do painel agora.",
-        true,
-      );
+      showAuthFeedback("Não foi possível carregar os dados do painel agora.", true);
     }
-    showLoggedOutState();
+    handleLogout(false);
   }
 }
 
@@ -271,10 +266,9 @@ async function fetchVotes() {
 
 function renderDashboard() {
   const latestVotes = getLatestVotesByGuest(state.votes);
-  const guestRows = buildGuestRows(state.guests, latestVotes);
-  state.guestRows = guestRows;
+  state.guestRows = buildGuestRows(state.guests, latestVotes);
 
-  renderSummary(guestRows, latestVotes);
+  renderSummary(state.guestRows, latestVotes);
   renderGuestList();
   renderActivity(latestVotes);
 }
@@ -304,32 +298,47 @@ function renderSummary(guestRows, latestVotes) {
   setText(ui.presenceDonutCenter, percentageText(confirmed, totalGuests));
   setText(ui.voteDonutCenter, totalVotes);
 
-  const confirmedAngle = percentageAngle(confirmed, totalGuests);
-  const girlAngle = percentageAngle(girlVotes, totalVotes);
-  ui.presenceDonut?.style.setProperty("--fill-angle", `${confirmedAngle}deg`);
-  ui.voteDonut?.style.setProperty("--fill-angle", `${girlAngle}deg`);
-  ui.voteGirlBar?.style.setProperty("width", `${percentageValue(girlVotes, totalVotes)}%`);
-  ui.voteBoyBar?.style.setProperty("width", `${percentageValue(boyVotes, totalVotes)}%`);
+  ui.presenceDonut?.style.setProperty(
+    "--fill-angle",
+    `${percentageAngle(confirmed, totalGuests)}deg`,
+  );
+  ui.voteDonut?.style.setProperty(
+    "--fill-angle",
+    `${percentageAngle(girlVotes, totalVotes)}deg`,
+  );
+  ui.voteGirlBar?.style.setProperty(
+    "width",
+    `${percentageValue(girlVotes, totalVotes)}%`,
+  );
+  ui.voteBoyBar?.style.setProperty(
+    "width",
+    `${percentageValue(boyVotes, totalVotes)}%`,
+  );
 }
 
 function renderGuestList() {
   const filtered = applyGuestFilters(state.guestRows || []);
-  ui.guestResultsNote.textContent = `${filtered.length} resultado${filtered.length === 1 ? "" : "s"}`;
+  if (ui.guestResultsNote) {
+    ui.guestResultsNote.textContent = `${filtered.length} resultado${filtered.length === 1 ? "" : "s"}`;
+  }
 
   if (!filtered.length) {
-    ui.guestList.innerHTML = `<div class="admin-empty">Nenhum convidado encontrado com os filtros atuais.</div>`;
+    ui.guestList.innerHTML =
+      '<div class="admin-empty">Nenhum convidado encontrado com os filtros atuais.</div>';
     return;
   }
 
   ui.guestList.innerHTML = filtered
     .map((guest) => {
       const attendanceChip = guest.attendanceConfirmed
-        ? `<span class="admin-chip admin-chip-confirmed">Presen&ccedil;a confirmada</span>`
-        : `<span class="admin-chip admin-chip-pending">Presen&ccedil;a pendente</span>`;
+        ? '<span class="admin-chip admin-chip-confirmed">Presença confirmada</span>'
+        : '<span class="admin-chip admin-chip-pending">Presença pendente</span>';
 
       const voteChip = guest.vote
-        ? `<span class="admin-chip ${guest.vote === "menina" ? "admin-chip-girl" : "admin-chip-boy"}">${guest.vote === "menina" ? "Palpite: Helena" : "Palpite: Heitor"}</span>`
-        : `<span class="admin-chip admin-chip-empty">Ainda n&atilde;o votou</span>`;
+        ? `<span class="admin-chip ${guest.vote === "menina" ? "admin-chip-girl" : "admin-chip-boy"}">${
+            guest.vote === "menina" ? "Palpite: Helena" : "Palpite: Heitor"
+          }</span>`
+        : '<span class="admin-chip admin-chip-empty">Ainda não votou</span>';
 
       return `
         <article class="admin-guest-item">
@@ -352,7 +361,8 @@ function renderGuestList() {
 function renderActivity(latestVotes) {
   const recent = latestVotes.slice(0, 8);
   if (!recent.length) {
-    ui.activityList.innerHTML = `<div class="admin-empty">Ainda n&atilde;o h&aacute; palpites registrados.</div>`;
+    ui.activityList.innerHTML =
+      '<div class="admin-empty">Ainda não há palpites registrados.</div>';
     return;
   }
 
@@ -360,6 +370,7 @@ function renderActivity(latestVotes) {
     .map((item) => {
       const chipClass = item.vote === "menina" ? "admin-chip-girl" : "admin-chip-boy";
       const label = item.vote === "menina" ? "Helena" : "Heitor";
+
       return `
         <article class="admin-activity-item">
           <div class="admin-activity-top">
@@ -456,14 +467,17 @@ async function authFetch(url, options = {}) {
   });
 }
 
-function handleLogout() {
+function handleLogout(showFeedback = true) {
   clearSession();
   state.session = null;
   state.user = null;
   state.guests = [];
   state.votes = [];
+  state.guestRows = [];
   showLoggedOutState();
-  showAuthFeedback("Sessão encerrada.", false);
+  if (showFeedback) {
+    showAuthFeedback("Sessão encerrada.", false);
+  }
 }
 
 function showLoggedOutState() {
@@ -471,6 +485,7 @@ function showLoggedOutState() {
   ui.dashboard.hidden = true;
   ui.printButton.hidden = true;
   ui.logoutButton.hidden = true;
+  updateInstallUI();
 }
 
 function showLoggedInState() {
@@ -478,6 +493,7 @@ function showLoggedInState() {
   ui.dashboard.hidden = false;
   ui.printButton.hidden = false;
   ui.logoutButton.hidden = false;
+  updateInstallUI();
 }
 
 function showAuthFeedback(message, isError) {
@@ -505,13 +521,6 @@ function clearSession() {
   localStorage.removeItem(AUTH_STORAGE_KEY);
 }
 
-function getPanelRedirectUrl() {
-  if (window.location.protocol.startsWith("http")) {
-    return new URL("painel.html", window.location.href).toString();
-  }
-  return PAINEL_REDIRECT_FALLBACK;
-}
-
 function isSupabaseConfigured() {
   return Boolean(supabaseConfig.url && supabaseConfig.anonKey);
 }
@@ -522,8 +531,42 @@ function createAccessError(status, payload) {
   return error;
 }
 
+async function safeParseJson(response) {
+  try {
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
 function isAccessDenied(error) {
   return error?.status === 401 || error?.status === 403;
+}
+
+function normalizeAuthErrorMessage(error) {
+  const message = String(error?.message || "").toLowerCase();
+
+  if (message.includes("invalid login credentials")) {
+    return "E-mail ou senha incorretos. Revise os dados e tente novamente.";
+  }
+
+  if (message.includes("email not confirmed")) {
+    return "Este e-mail ainda não foi confirmado no Supabase Auth. Abra o e-mail de confirmação antes de entrar.";
+  }
+
+  if (message.includes("signup") || message.includes("signups not allowed")) {
+    return "Este acesso ainda não foi criado no Supabase Auth. Cadastre o usuário do painel antes de tentar entrar.";
+  }
+
+  if (message.includes("invalid email")) {
+    return "O e-mail informado parece inválido. Revise e tente novamente.";
+  }
+
+  if (message.includes("failed to fetch")) {
+    return "Não foi possível falar com o Supabase agora. Verifique a conexão e tente novamente.";
+  }
+
+  return error?.message || "Não foi possível entrar no painel agora. Tente novamente.";
 }
 
 function percentageText(value, total) {
@@ -571,4 +614,85 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+}
+
+function registerInstallPrompt() {
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    state.installPromptEvent = event;
+    updateInstallUI();
+  });
+
+  window.addEventListener("appinstalled", () => {
+    state.installPromptEvent = null;
+    localStorage.setItem(INSTALL_STATE_STORAGE_KEY, "installed");
+    updateInstallUI();
+    showAuthFeedback("Painel instalado neste aparelho.", false);
+  });
+
+  updateInstallUI();
+}
+
+async function handleInstallClick() {
+  if (state.installPromptEvent) {
+    state.installPromptEvent.prompt();
+    const outcome = await state.installPromptEvent.userChoice;
+    if (outcome?.outcome === "dismissed") {
+      localStorage.setItem(INSTALL_STATE_STORAGE_KEY, "dismissed");
+    }
+    state.installPromptEvent = null;
+    updateInstallUI();
+    return;
+  }
+
+  showInstallHint(getManualInstallText());
+}
+
+function updateInstallUI() {
+  const isStandalone = window.matchMedia?.("(display-mode: standalone)")?.matches;
+  const installState = localStorage.getItem(INSTALL_STATE_STORAGE_KEY);
+  const canPromptInstall = Boolean(state.installPromptEvent) && !isStandalone;
+
+  if (ui.installButton) {
+    ui.installButton.hidden = !canPromptInstall;
+  }
+
+  if (isStandalone) {
+    showInstallHint("Este painel já está instalado neste aparelho.");
+    return;
+  }
+
+  if (canPromptInstall) {
+    showInstallHint("Depois do primeiro acesso, toque em instalar para abrir este painel como app no celular.");
+    return;
+  }
+
+  if (installState === "installed") {
+    showInstallHint("Este painel já pode ser aberto como app neste aparelho.");
+    return;
+  }
+
+  showInstallHint(getManualInstallText());
+}
+
+function showInstallHint(message) {
+  if (!ui.installHint) return;
+  ui.installHint.textContent = message;
+  ui.installHint.hidden = !message;
+}
+
+function getManualInstallText() {
+  return "Se o botão de instalar não aparecer, use o menu do navegador e escolha Adicionar à tela inicial ou Instalar aplicativo.";
+}
+
+async function registerServiceWorker() {
+  if (!("serviceWorker" in navigator) || !window.location.protocol.startsWith("http")) {
+    return;
+  }
+
+  try {
+    await navigator.serviceWorker.register(PANEL_SW_PATH);
+  } catch (error) {
+    console.warn("Não foi possível registrar o service worker do painel.", error);
+  }
 }

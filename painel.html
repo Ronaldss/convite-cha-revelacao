@@ -4,10 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Painel do Ch&aacute; Revele&ccedil;&atilde;o</title>
+    <meta name="theme-color" content="#f6ecdc" />
     <meta
       name="description"
       content="Painel administrativo do convite com presen&ccedil;as, palpites e resumo do evento."
     />
+    <link rel="manifest" href="./painel.webmanifest" />
+    <link rel="apple-touch-icon" href="./referencias/urso3.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -31,6 +34,9 @@
             </p>
           </div>
           <div class="admin-hero-actions">
+            <button class="admin-secondary-button" id="admin-install-button" type="button" hidden>
+              Instalar painel
+            </button>
             <button class="admin-secondary-button" id="admin-print-button" type="button" hidden>
               Baixar PDF
             </button>
@@ -42,9 +48,9 @@
 
         <section class="admin-card admin-auth-card" id="admin-auth-card">
           <p class="admin-card-kicker">Acesso dos pais</p>
-          <h2>Entrar com magic link</h2>
+          <h2>Entrar com e-mail e senha</h2>
           <p class="admin-copy">
-            Informe o e-mail autorizado. Vamos enviar um link seguro para abrir este painel.
+            Use o e-mail autorizado e a senha deste painel. Depois do primeiro acesso, voc&ecirc;s podem instalar no celular e o retorno fica mais simples.
           </p>
 
           <form class="admin-auth-form" id="admin-login-form">
@@ -60,12 +66,24 @@
                 required
               />
             </label>
+            <label class="admin-field">
+              <span>Senha</span>
+              <input
+                id="admin-password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Digite a senha"
+                required
+              />
+            </label>
             <button class="admin-primary-button" id="admin-login-button" type="submit">
-              Enviar link de acesso
+              Entrar no painel
             </button>
           </form>
 
           <p class="admin-feedback" id="admin-auth-feedback" hidden></p>
+          <p class="admin-install-hint" id="admin-install-hint" hidden></p>
         </section>
 
         <section class="admin-dashboard" id="admin-dashboard" hidden>

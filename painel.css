@@ -227,6 +227,13 @@ select {
   color: #8c4568;
 }
 
+.admin-install-hint {
+  margin: 0.9rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: rgba(106, 65, 45, 0.72);
+}
+
 .admin-dashboard[hidden],
 .admin-auth-card[hidden] {
   display: none !important;

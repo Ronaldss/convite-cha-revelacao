@@ -1,0 +1,25 @@
+{
+  "name": "Painel do Chá Revelação",
+  "short_name": "Painel Chá",
+  "description": "Painel privado dos pais para acompanhar convidados, presenças e palpites.",
+  "lang": "pt-BR",
+  "start_url": "./painel.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbf6ef",
+  "theme_color": "#f6ecdc",
+  "icons": [
+    {
+      "src": "./referencias/urso3.png",
+      "sizes": "1024x1515",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./referencias/ursoBalao.png",
+      "sizes": "1024x1536",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
