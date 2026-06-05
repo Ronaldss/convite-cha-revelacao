@@ -202,7 +202,7 @@ async function refreshSession(refreshToken) {
     throw new Error(
       payload?.error_description ||
         payload?.message ||
-        "NÃ£o foi possÃ­vel renovar a sessÃ£o.",
+        "Não foi possível renovar a sessão.",
     );
   }
 
@@ -217,7 +217,7 @@ async function fetchCurrentUser() {
   const response = await authFetch(`${supabaseConfig.url}/auth/v1/user`);
   const user = await response.json();
   if (!response.ok) {
-    throw new Error("NÃ£o foi possÃ­vel carregar o usuÃ¡rio autenticado.");
+    throw new Error("Não foi possível carregar o usuário autenticado.");
   }
   return user;
 }
@@ -236,11 +236,11 @@ async function loadDashboard() {
     console.error(error);
     if (isAccessDenied(error)) {
       showAuthFeedback(
-        "Este e-mail entrou, mas ainda nÃ£o estÃ¡ autorizado para visualizar o painel. Adicione-o na tabela admin_users do Supabase.",
+        "Este e-mail entrou, mas ainda não está autorizado para visualizar o painel. Adicione-o na tabela admin_users do Supabase.",
         true,
       );
     } else {
-      showAuthFeedback("NÃ£o foi possÃ­vel carregar os dados do painel agora.", true);
+      showAuthFeedback("Não foi possível carregar os dados do painel agora.", true);
     }
     handleLogout(false);
   }
@@ -339,14 +339,14 @@ function renderGuestList() {
   ui.guestList.innerHTML = filtered
     .map((guest) => {
       const attendanceChip = guest.attendanceConfirmed
-        ? '<span class="admin-chip admin-chip-confirmed">PresenÃ§a confirmada</span>'
-        : '<span class="admin-chip admin-chip-pending">PresenÃ§a pendente</span>';
+        ? '<span class="admin-chip admin-chip-confirmed">Presença confirmada</span>'
+        : '<span class="admin-chip admin-chip-pending">Presença pendente</span>';
 
       const voteChip = guest.vote
         ? `<span class="admin-chip ${guest.vote === "menina" ? "admin-chip-girl" : "admin-chip-boy"}">${
             guest.vote === "menina" ? "Palpite: Helena" : "Palpite: Heitor"
           }</span>`
-        : '<span class="admin-chip admin-chip-empty">Ainda nÃ£o votou</span>';
+        : '<span class="admin-chip admin-chip-empty">Ainda não votou</span>';
 
       const sendInviteButton = buildInviteAction(guest);
 
@@ -375,7 +375,7 @@ function renderActivity(latestVotes) {
   const recent = latestVotes.slice(0, 8);
   if (!recent.length) {
     ui.activityList.innerHTML =
-      '<div class="admin-empty">Ainda nÃ£o hÃ¡ palpites registrados.</div>';
+      '<div class="admin-empty">Ainda não há palpites registrados.</div>';
     return;
   }
 
@@ -466,7 +466,7 @@ function getLatestVotesByGuest(votes) {
 async function authFetch(url, options = {}) {
   const session = state.session || (await restoreSession());
   if (!session?.accessToken) {
-    throw new Error("SessÃ£o administrativa indisponÃ­vel.");
+    throw new Error("Sessão administrativa indisponível.");
   }
 
   return fetch(url, {
@@ -489,7 +489,7 @@ function handleLogout(showFeedback = true) {
   state.guestRows = [];
   showLoggedOutState();
   if (showFeedback) {
-    showAuthFeedback("SessÃ£o encerrada.", false);
+    showAuthFeedback("Sessão encerrada.", false);
   }
 }
 
@@ -564,22 +564,22 @@ function normalizeAuthErrorMessage(error) {
   }
 
   if (message.includes("email not confirmed")) {
-    return "Este e-mail ainda nÃ£o foi confirmado no Supabase Auth. Abra o e-mail de confirmaÃ§Ã£o antes de entrar.";
+    return "Este e-mail ainda não foi confirmado no Supabase Auth. Abra o e-mail de confirmação antes de entrar.";
   }
 
   if (message.includes("signup") || message.includes("signups not allowed")) {
-    return "Este acesso ainda nÃ£o foi criado no Supabase Auth. Cadastre o usuÃ¡rio do painel antes de tentar entrar.";
+    return "Este acesso ainda não foi criado no Supabase Auth. Cadastre o usuário do painel antes de tentar entrar.";
   }
 
   if (message.includes("invalid email")) {
-    return "O e-mail informado parece invÃ¡lido. Revise e tente novamente.";
+    return "O e-mail informado parece inválido. Revise e tente novamente.";
   }
 
   if (message.includes("failed to fetch")) {
-    return "NÃ£o foi possÃ­vel falar com o Supabase agora. Verifique a conexÃ£o e tente novamente.";
+    return "Não foi possível falar com o Supabase agora. Verifique a conexão e tente novamente.";
   }
 
-  return error?.message || "NÃ£o foi possÃ­vel entrar no painel agora. Tente novamente.";
+  return error?.message || "Não foi possível entrar no painel agora. Tente novamente.";
 }
 
 function percentageText(value, total) {
@@ -602,9 +602,9 @@ function setText(node, value) {
 }
 
 function formatGuestMeta(guest) {
-  const phone = guest.phone || "telefone nÃ£o informado";
-  const invite = guest.inviteCode ? `convite ${guest.inviteCode.slice(-6)}` : "sem cÃ³digo";
-  return `${phone} â€¢ ${invite}`;
+  const phone = guest.phone || "telefone não informado";
+  const invite = guest.inviteCode ? `convite ${guest.inviteCode.slice(-6)}` : "sem código";
+  return `${phone} • ${invite}`;
 }
 
 function buildInviteAction(guest) {
@@ -661,7 +661,7 @@ function normalizeBrazilianPhone(value) {
 }
 
 function formatDateTime(value) {
-  if (!value) return "sem horÃ¡rio";
+  if (!value) return "sem horário";
 
   try {
     return new Intl.DateTimeFormat("pt-BR", {
@@ -737,7 +737,7 @@ function updateInstallUI() {
   }
 
   if (installState === "installed") {
-    showInstallHint("Este painel jÃ¡ pode ser aberto como app.");
+    showInstallHint("Este painel já pode ser aberto como app.");
     return;
   }
 
@@ -754,14 +754,14 @@ function getManualInstallText() {
   const userAgent = navigator.userAgent.toLowerCase();
 
   if (userAgent.includes("iphone") || userAgent.includes("ipad")) {
-    return "No iPhone/iPad, use Compartilhar e depois Adicionar Ã  Tela de InÃ­cio.";
+    return "No iPhone/iPad, use Compartilhar e depois Adicionar à Tela de Início.";
   }
 
   if (userAgent.includes("android")) {
-    return "No Android, use o menu do navegador e escolha Instalar app ou Adicionar Ã  tela inicial.";
+    return "No Android, use o menu do navegador e escolha Instalar app ou Adicionar à tela inicial.";
   }
 
-  return "Use o menu do navegador e escolha Instalar aplicativo ou Adicionar Ã  tela inicial.";
+  return "Use o menu do navegador e escolha Instalar aplicativo ou Adicionar à tela inicial.";
 }
 
 async function registerServiceWorker() {
@@ -772,9 +772,8 @@ async function registerServiceWorker() {
   try {
     await navigator.serviceWorker.register(PANEL_SW_PATH);
   } catch (error) {
-    console.warn("NÃ£o foi possÃ­vel registrar o service worker do painel.", error);
+    console.warn("Não foi possível registrar o service worker do painel.", error);
   }
 }
-
 
 
