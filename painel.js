@@ -248,7 +248,11 @@ async function loadDashboard() {
 
 async function fetchGuests() {
   const response = await authFetch(
-    `${supabaseConfig.url}/rest/v1/${supabaseConfig.guestsTable}?select=id,name,display_name,phone,invite_code,attendance_confirmed,created_at&order=display_name.asc.nullslast,name.asc`,
+    `${supabaseConfig.url}/rest/v1/rpc/list_admin_guests`,
+    {
+      method: "POST",
+      body: JSON.stringify({}),
+    },
   );
   const data = await response.json();
   if (!response.ok) throw createAccessError(response.status, data);
@@ -257,7 +261,11 @@ async function fetchGuests() {
 
 async function fetchVotes() {
   const response = await authFetch(
-    `${supabaseConfig.url}/rest/v1/${supabaseConfig.votesTable}?select=guest_id,guest_name,guest_display_name,vote,created_at&order=created_at.desc`,
+    `${supabaseConfig.url}/rest/v1/rpc/list_admin_votes`,
+    {
+      method: "POST",
+      body: JSON.stringify({}),
+    },
   );
   const data = await response.json();
   if (!response.ok) throw createAccessError(response.status, data);
