@@ -58,6 +58,8 @@ const state = {
   },
 };
 
+let inviteToastTimer = null;
+
 bootstrap().catch((error) => {
   console.error("Falha ao iniciar o painel:", error);
   showAuthFeedback(
@@ -646,14 +648,7 @@ function buildInviteAction(guest) {
 function buildWhatsAppUrl(guest) {
   const phone = normalizeBrazilianPhone(guest.phone);
   const inviteLink = buildInviteLink(guest.inviteCode);
-  const message = encodeURIComponent(
-    [
-      inviteLink,
-      "",
-      "Olá! Com muito carinho, estamos enviando seu convite para o nosso chá revelação.",
-      "Será uma alegria ter você com a gente nesse momento tão especial.\nAbra o link para confirmar sua presença e deixar seu palpite.",
-    ].join("\n"),
-  );
+  const message = encodeURIComponent(inviteLink);
 
   if (phone) {
     return `https://wa.me/${phone}?text=${message}`;
@@ -682,9 +677,11 @@ async function copyInviteMessage(guestName, inviteCode) {
 
   try {
     await copyTextToClipboard(message);
+    showInviteToast(`Convite de ${guestName} copiado com sucesso.`);
     showAuthFeedback(`Convite de ${guestName} copiado.`, false);
   } catch (error) {
     console.error(error);
+    showInviteToast("Não foi possível copiar o convite automaticamente.", true);
     showAuthFeedback(
       "Não foi possível copiar automaticamente. Tente novamente pelo navegador.",
       true,
@@ -717,6 +714,32 @@ async function copyTextToClipboard(text) {
   if (!copied) {
     throw new Error("clipboard_copy_failed");
   }
+}
+
+function showInviteToast(message, isError = false) {
+  const existing = document.getElementById("admin-invite-toast");
+  const toast =
+    existing ||
+    Object.assign(document.createElement("div"), {
+      id: "admin-invite-toast",
+      className: "admin-toast",
+    });
+
+  toast.textContent = message;
+  toast.classList.toggle("is-error", Boolean(isError));
+
+  if (!existing) {
+    document.body.appendChild(toast);
+  }
+
+  requestAnimationFrame(() => {
+    toast.classList.add("is-visible");
+  });
+
+  window.clearTimeout(inviteToastTimer);
+  inviteToastTimer = window.setTimeout(() => {
+    toast.classList.remove("is-visible");
+  }, 2600);
 }
 
 function normalizeBrazilianPhone(value) {
