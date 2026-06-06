@@ -4,6 +4,7 @@ const supabaseConfig = painelConfig.supabase || {};
 const AUTH_STORAGE_KEY = "convite-admin-session";
 const INSTALL_STATE_STORAGE_KEY = "convite-admin-install-state";
 const PANEL_SW_PATH = "./painel-sw.js";
+const GUESTS_PER_PAGE = 10;
 
 const ui = {
   authCard: document.getElementById("admin-auth-card"),
@@ -41,6 +42,10 @@ const ui = {
   voteFilter: document.getElementById("vote-filter"),
   guestResultsNote: document.getElementById("guest-results-note"),
   guestList: document.getElementById("admin-guest-list"),
+  pagination: document.getElementById("admin-pagination"),
+  prevPageButton: document.getElementById("guest-prev-page"),
+  nextPageButton: document.getElementById("guest-next-page"),
+  pageNote: document.getElementById("guest-page-note"),
   activityList: document.getElementById("admin-activity-list"),
 };
 
@@ -56,6 +61,7 @@ const state = {
     attendance: "all",
     vote: "all",
   },
+  currentPage: 1,
 };
 
 let inviteToastTimer = null;
@@ -97,14 +103,28 @@ function bindEvents() {
   ui.logoutButton?.addEventListener("click", handleLogout);
   ui.guestSearch?.addEventListener("input", (event) => {
     state.filters.search = event.target.value.trim().toLowerCase();
+    state.currentPage = 1;
     renderGuestList();
   });
   ui.attendanceFilter?.addEventListener("change", (event) => {
     state.filters.attendance = event.target.value;
+    state.currentPage = 1;
     renderGuestList();
   });
   ui.voteFilter?.addEventListener("change", (event) => {
     state.filters.vote = event.target.value;
+    state.currentPage = 1;
+    renderGuestList();
+  });
+  ui.prevPageButton?.addEventListener("click", () => {
+    if (state.currentPage <= 1) return;
+    state.currentPage -= 1;
+    renderGuestList();
+  });
+  ui.nextPageButton?.addEventListener("click", () => {
+    const totalPages = Math.max(1, Math.ceil((applyGuestFilters(state.guestRows || []).length || 0) / GUESTS_PER_PAGE));
+    if (state.currentPage >= totalPages) return;
+    state.currentPage += 1;
     renderGuestList();
   });
 }
@@ -328,17 +348,29 @@ function renderSummary(guestRows, latestVotes) {
 
 function renderGuestList() {
   const filtered = applyGuestFilters(state.guestRows || []);
+  const totalResults = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(totalResults / GUESTS_PER_PAGE));
+  state.currentPage = Math.min(Math.max(state.currentPage, 1), totalPages);
+  const startIndex = (state.currentPage - 1) * GUESTS_PER_PAGE;
+  const endIndex = Math.min(startIndex + GUESTS_PER_PAGE, totalResults);
+  const pageItems = filtered.slice(startIndex, endIndex);
+
   if (ui.guestResultsNote) {
-    ui.guestResultsNote.textContent = `${filtered.length} resultado${filtered.length === 1 ? "" : "s"}`;
+    if (!totalResults) {
+      ui.guestResultsNote.textContent = "0 resultados";
+    } else {
+      ui.guestResultsNote.textContent = `Mostrando ${startIndex + 1}–${endIndex} de ${totalResults}`;
+    }
   }
 
-  if (!filtered.length) {
+  if (!totalResults) {
     ui.guestList.innerHTML =
       '<div class="admin-empty">Nenhum convidado encontrado com os filtros atuais.</div>';
+    updatePagination(0, 1);
     return;
   }
 
-  ui.guestList.innerHTML = filtered
+  ui.guestList.innerHTML = pageItems
     .map((guest) => {
       const attendanceChip = guest.attendanceConfirmed
         ? '<span class="admin-chip admin-chip-confirmed">Presença confirmada</span>'
@@ -371,6 +403,21 @@ function renderGuestList() {
       `;
     })
     .join("");
+
+  updatePagination(totalResults, totalPages);
+}
+
+function updatePagination(totalResults, totalPages) {
+  if (!ui.pagination || !ui.prevPageButton || !ui.nextPageButton || !ui.pageNote) return;
+
+  const shouldShow = totalResults > GUESTS_PER_PAGE;
+  ui.pagination.hidden = !shouldShow;
+
+  if (!shouldShow) return;
+
+  ui.prevPageButton.disabled = state.currentPage <= 1;
+  ui.nextPageButton.disabled = state.currentPage >= totalPages;
+  ui.pageNote.textContent = `Página ${state.currentPage} de ${totalPages}`;
 }
 
 function renderActivity(latestVotes) {
