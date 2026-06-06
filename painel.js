@@ -681,7 +681,7 @@ async function copyInviteMessage(guestName, inviteCode) {
   ].join("\n");
 
   try {
-    await navigator.clipboard.writeText(message);
+    await copyTextToClipboard(message);
     showAuthFeedback(`Convite de ${guestName} copiado.`, false);
   } catch (error) {
     console.error(error);
@@ -693,6 +693,31 @@ async function copyInviteMessage(guestName, inviteCode) {
 }
 
 window.copyInviteMessage = copyInviteMessage;
+
+async function copyTextToClipboard(text) {
+  if (navigator.clipboard?.writeText && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.setAttribute("readonly", "");
+  textArea.style.position = "fixed";
+  textArea.style.top = "-9999px";
+  textArea.style.left = "-9999px";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  textArea.setSelectionRange(0, text.length);
+
+  const copied = document.execCommand("copy");
+  document.body.removeChild(textArea);
+
+  if (!copied) {
+    throw new Error("clipboard_copy_failed");
+  }
+}
 
 function normalizeBrazilianPhone(value) {
   const digits = String(value || "").replace(/\D/g, "").replace(/^0+/, "");
