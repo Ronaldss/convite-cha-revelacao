@@ -121,6 +121,17 @@ select {
   color: rgba(106, 65, 45, 0.86);
 }
 
+.admin-print-summary {
+  margin-top: 0.55rem;
+}
+
+.admin-print-generated {
+  margin: 0.45rem 0 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: rgba(106, 65, 45, 0.62);
+}
+
 .admin-hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -678,20 +689,56 @@ select {
 }
 
 @media print {
+  @page {
+    size: A4 portrait;
+    margin: 11mm 10mm 12mm;
+  }
+
   body {
     background: #fff;
+    color: #3f281b;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   .admin-ambient,
   .admin-auth-card,
   .admin-hero-actions,
-  .admin-controls-card {
+  .admin-controls-card,
+  .admin-toast,
+  .admin-pagination,
+  .admin-guest-actions {
     display: none !important;
   }
 
   .admin-page {
     width: 100%;
     padding: 0;
+  }
+
+  .admin-shell {
+    max-width: none;
+  }
+
+  .admin-hero {
+    gap: 0.35rem;
+    padding: 0 0 0.55rem;
+    margin-bottom: 0.6rem;
+    border-bottom: 1px solid rgba(148, 104, 75, 0.24);
+  }
+
+  .admin-hero h1 {
+    font-size: 2.15rem;
+    line-height: 0.98;
+  }
+
+  .admin-print-summary {
+    font-size: 0.9rem;
+    max-width: none;
+  }
+
+  .admin-print-generated {
+    font-size: 0.78rem;
   }
 
   .admin-card,
@@ -704,5 +751,145 @@ select {
   .admin-summary-grid,
   .admin-chart-grid {
     page-break-inside: avoid;
+  }
+
+  .admin-summary-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.45rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .admin-stat-card {
+    padding: 0.65rem 0.75rem;
+    border-radius: 14px;
+  }
+
+  .admin-stat-label {
+    font-size: 0.7rem;
+  }
+
+  .admin-stat-value {
+    margin-top: 0.25rem;
+    font-size: 1.45rem;
+  }
+
+  .admin-stat-note {
+    margin-top: 0.18rem;
+    font-size: 0.72rem;
+  }
+
+  .admin-chart-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .admin-card {
+    margin-bottom: 0.6rem;
+    padding: 0.75rem 0.85rem;
+    border-radius: 16px;
+    break-inside: avoid;
+  }
+
+  .admin-card h2 {
+    font-size: 1.15rem;
+  }
+
+  .admin-card-header {
+    margin-bottom: 0.55rem;
+    align-items: center;
+  }
+
+  .admin-inline-note {
+    min-height: 1.7rem;
+    font-size: 0.72rem;
+    padding: 0.2rem 0.55rem;
+  }
+
+  .admin-chart-layout {
+    grid-template-columns: 7rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: center;
+    justify-items: stretch;
+  }
+
+  .admin-donut {
+    width: 6.6rem;
+    height: 6.6rem;
+  }
+
+  .admin-donut-hole {
+    width: 3.8rem;
+    height: 3.8rem;
+  }
+
+  .admin-donut-hole strong {
+    font-size: 1rem;
+  }
+
+  .admin-donut-hole span {
+    font-size: 0.58rem;
+  }
+
+  .admin-legend {
+    gap: 0.35rem;
+  }
+
+  .admin-legend-item {
+    padding: 0.45rem 0.55rem;
+    border-radius: 12px;
+  }
+
+  .admin-legend-item strong {
+    font-size: 0.82rem;
+  }
+
+  .admin-legend-item span:last-child {
+    font-size: 0.68rem;
+  }
+
+  .admin-bar-compare {
+    gap: 0.35rem;
+    margin-top: 0.6rem;
+  }
+
+  .admin-guest-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
+  }
+
+  .admin-guest-item,
+  .admin-activity-item {
+    padding: 0.65rem 0.7rem;
+    border-radius: 14px;
+  }
+
+  .admin-guest-name,
+  .admin-activity-name {
+    font-size: 0.86rem;
+    line-height: 1.15;
+  }
+
+  .admin-guest-meta,
+  .admin-activity-meta {
+    margin-top: 0.18rem;
+    font-size: 0.68rem;
+  }
+
+  .admin-chip-row {
+    gap: 0.3rem;
+    margin-top: 0.45rem;
+  }
+
+  .admin-chip {
+    min-height: 1.4rem;
+    padding: 0.16rem 0.48rem;
+    font-size: 0.62rem;
+    border-radius: 999px;
+  }
+
+  .admin-activity-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
   }
 }

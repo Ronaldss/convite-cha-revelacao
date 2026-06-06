@@ -18,6 +18,7 @@ const ui = {
   installHint: document.getElementById("admin-install-hint"),
   printButton: document.getElementById("admin-print-button"),
   logoutButton: document.getElementById("admin-logout-button"),
+  printGenerated: document.getElementById("admin-print-generated"),
   totalGuests: document.getElementById("stat-total-guests"),
   confirmed: document.getElementById("stat-confirmed"),
   pending: document.getElementById("stat-pending"),
@@ -343,6 +344,11 @@ function renderSummary(guestRows, latestVotes) {
   ui.voteBoyBar?.style.setProperty(
     "width",
     `${percentageValue(boyVotes, totalVotes)}%`,
+  );
+
+  setText(
+    ui.printGenerated,
+    `Gerado em ${formatDateTime(new Date().toISOString(), { shortTime: true })}`,
   );
 }
 
@@ -804,13 +810,21 @@ function normalizeBrazilianPhone(value) {
   return "";
 }
 
-function formatDateTime(value) {
+function formatDateTime(value, options = {}) {
   if (!value) return "sem horário";
 
   try {
+    const { shortTime = false } = options;
     return new Intl.DateTimeFormat("pt-BR", {
       dateStyle: "short",
-      timeStyle: "short",
+      ...(shortTime
+        ? {
+            hour: "2-digit",
+            minute: "2-digit",
+          }
+        : {
+            timeStyle: "short",
+          }),
     }).format(new Date(value));
   } catch {
     return value;
