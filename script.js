@@ -113,11 +113,16 @@ function initCoverCountdown() {
   if (!ui.coverCountdown || !ui.coverCountdownValue) return;
 
   const currentDateText =
-    config.event?.date || document.querySelector("[data-event-date]")?.textContent || "";
+    document.querySelector("[data-event-date]")?.textContent || config.event?.date || "";
   const currentTimeText =
-    config.event?.time || document.querySelector("[data-event-time]")?.textContent || "";
+    document.querySelector("[data-event-time]")?.textContent || config.event?.time || "";
   const targetDate = parseEventCountdownDate(currentDateText, currentTimeText);
-  if (!targetDate) return;
+  if (!targetDate) {
+    ui.coverCountdown.hidden = true;
+    return;
+  }
+
+  ui.coverCountdown.hidden = false;
 
   const render = () => {
     const diff = targetDate.getTime() - Date.now();
@@ -174,12 +179,11 @@ function parseEventCountdownDate(dateText, timeText) {
     day = Number(shortDateMatch[1]);
     month = Number(shortDateMatch[2]);
     const explicitYear = shortDateMatch[3] ? Number(shortDateMatch[3]) : null;
-    const now = new Date();
     year = explicitYear
       ? explicitYear < 100
         ? 2000 + explicitYear
         : explicitYear
-      : now.getFullYear();
+      : 2026;
   }
 
   if (!day || !month || !year) return null;
