@@ -638,6 +638,33 @@ h2 {
   margin-top: 0.38rem;
 }
 
+.cover-countdown {
+  display: grid;
+  justify-items: center;
+  gap: 0.08rem;
+  margin: 0.5rem auto 0;
+  opacity: 0.74;
+}
+
+.cover-countdown-label,
+.cover-countdown-detail {
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(106, 65, 45, 0.54);
+}
+
+.cover-countdown-value {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: rgba(106, 65, 45, 0.74);
+}
+
 .cover-swatch {
   width: clamp(2.28rem, 7.8vw, 2.75rem);
   height: clamp(2.28rem, 7.8vw, 2.75rem);
@@ -2385,6 +2412,19 @@ h2 {
 
   .cover-palette {
     margin-top: 0.3rem;
+  }
+
+  .cover-countdown {
+    margin-top: 0.42rem;
+  }
+
+  .cover-countdown-label,
+  .cover-countdown-detail {
+    font-size: 0.58rem;
+  }
+
+  .cover-countdown-value {
+    font-size: 0.82rem;
   }
 
   .cover-swatch {

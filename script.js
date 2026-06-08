@@ -78,6 +78,9 @@ const ui = {
   girlMeterFill: document.getElementById("girl-meter-fill"),
   boyMeterFill: document.getElementById("boy-meter-fill"),
   voteTags: document.getElementById("vote-tags"),
+  coverCountdown: document.getElementById("cover-countdown"),
+  coverCountdownValue: document.getElementById("cover-countdown-value"),
+  coverCountdownDetail: document.getElementById("cover-countdown-detail"),
 };
 
 const dataStore = createDataStore();
@@ -95,6 +98,7 @@ bootstrap().catch((error) => {
 
 async function bootstrap() {
   initEventDetails();
+  initCoverCountdown();
   initPanels();
   initLocationSharing();
   initGiftRotation();
@@ -104,6 +108,104 @@ async function bootstrap() {
   await initVoting();
   initVoteConfirmationInterception();
   initVoteSync();
+}
+
+function initCoverCountdown() {
+  if (!ui.coverCountdown || !ui.coverCountdownValue || !ui.coverCountdownDetail) return;
+
+  const targetDate = parseEventCountdownDate(config.event?.date, config.event?.time);
+  if (!targetDate) return;
+
+  const render = () => {
+    const diff = targetDate.getTime() - Date.now();
+    if (diff <= 0) {
+      ui.coverCountdown.hidden = false;
+      ui.coverCountdownValue.textContent = "é hoje";
+      ui.coverCountdownDetail.textContent = "o grande momento chegou";
+      return;
+    }
+
+    const totalMinutes = Math.floor(diff / 60000);
+    const days = Math.floor(totalMinutes / (60 * 24));
+    const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
+    const minutes = totalMinutes % 60;
+
+    ui.coverCountdown.hidden = false;
+    ui.coverCountdownValue.textContent = formatCountdownValue(days, hours, minutes);
+    ui.coverCountdownDetail.textContent = "para esse momento especial";
+  };
+
+  render();
+  window.setInterval(render, 60000);
+}
+
+function parseEventCountdownDate(dateText, timeText) {
+  const dateValue = String(dateText || "").trim();
+  if (!dateValue) return null;
+
+  const monthMap = {
+    janeiro: 1,
+    fevereiro: 2,
+    março: 3,
+    marco: 3,
+    abril: 4,
+    maio: 5,
+    junho: 6,
+    julho: 7,
+    agosto: 8,
+    setembro: 9,
+    outubro: 10,
+    novembro: 11,
+    dezembro: 12,
+  };
+
+  let day = null;
+  let month = null;
+  let year = null;
+
+  const longDateMatch = dateValue.match(/(\d{1,2})\s+([A-Za-zÀ-ÿ]+)\s+(\d{4})/);
+  if (longDateMatch) {
+    day = Number(longDateMatch[1]);
+    const monthName = normalizeString(longDateMatch[2]).toLowerCase();
+    month = monthMap[monthName];
+    year = Number(longDateMatch[3]);
+  } else {
+    const shortDateMatch = dateValue.match(/(\d{1,2})\s*\/\s*(\d{1,2})(?:\s*\/\s*(\d{2,4}))?/);
+    if (!shortDateMatch) return null;
+    day = Number(shortDateMatch[1]);
+    month = Number(shortDateMatch[2]);
+    const explicitYear = shortDateMatch[3] ? Number(shortDateMatch[3]) : null;
+    const now = new Date();
+    year = explicitYear
+      ? explicitYear < 100
+        ? 2000 + explicitYear
+        : explicitYear
+      : now.getFullYear();
+  }
+
+  if (!day || !month || !year) return null;
+
+  const timeValue = String(timeText || "").trim();
+  const timeMatch = timeValue.match(/(\d{1,2})[:h]?(\d{2})?/i);
+  const hour = timeMatch ? Number(timeMatch[1]) : 0;
+  const minute = timeMatch && timeMatch[2] ? Number(timeMatch[2]) : 0;
+
+  return new Date(`${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}T${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:00-03:00`);
+}
+
+function formatCountdownValue(days, hours, minutes) {
+  if (days > 0) {
+    if (days === 1) return "1 dia";
+    return `${days} dias`;
+  }
+
+  if (hours > 0) {
+    if (hours === 1) return "1 hora";
+    return `${hours} horas`;
+  }
+
+  if (minutes <= 1) return "1 minuto";
+  return `${minutes} minutos`;
 }
 
 function initLocationSharing() {
@@ -225,6 +327,12 @@ function copyTextFallback(text) {
   textArea.select();
   document.execCommand("copy");
   document.body.removeChild(textArea);
+}
+
+function normalizeString(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 }
 
 function showCopyLocationFeedback(message) {
