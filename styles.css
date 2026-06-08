@@ -646,8 +646,7 @@ h2 {
   opacity: 0.74;
 }
 
-.cover-countdown-label,
-.cover-countdown-detail {
+.cover-countdown-label {
   font-family: var(--font-ui);
   font-size: 0.62rem;
   line-height: 1.2;
@@ -2418,8 +2417,7 @@ h2 {
     margin-top: 0.42rem;
   }
 
-  .cover-countdown-label,
-  .cover-countdown-detail {
+  .cover-countdown-label {
     font-size: 0.58rem;
   }
 

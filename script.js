@@ -80,7 +80,6 @@ const ui = {
   voteTags: document.getElementById("vote-tags"),
   coverCountdown: document.getElementById("cover-countdown"),
   coverCountdownValue: document.getElementById("cover-countdown-value"),
-  coverCountdownDetail: document.getElementById("cover-countdown-detail"),
 };
 
 const dataStore = createDataStore();
@@ -111,17 +110,19 @@ async function bootstrap() {
 }
 
 function initCoverCountdown() {
-  if (!ui.coverCountdown || !ui.coverCountdownValue || !ui.coverCountdownDetail) return;
+  if (!ui.coverCountdown || !ui.coverCountdownValue) return;
 
-  const targetDate = parseEventCountdownDate(config.event?.date, config.event?.time);
+  const currentDateText =
+    config.event?.date || document.querySelector("[data-event-date]")?.textContent || "";
+  const currentTimeText =
+    config.event?.time || document.querySelector("[data-event-time]")?.textContent || "";
+  const targetDate = parseEventCountdownDate(currentDateText, currentTimeText);
   if (!targetDate) return;
 
   const render = () => {
     const diff = targetDate.getTime() - Date.now();
     if (diff <= 0) {
-      ui.coverCountdown.hidden = false;
       ui.coverCountdownValue.textContent = "é hoje";
-      ui.coverCountdownDetail.textContent = "o grande momento chegou";
       return;
     }
 
@@ -130,9 +131,7 @@ function initCoverCountdown() {
     const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
     const minutes = totalMinutes % 60;
 
-    ui.coverCountdown.hidden = false;
     ui.coverCountdownValue.textContent = formatCountdownValue(days, hours, minutes);
-    ui.coverCountdownDetail.textContent = "para esse momento especial";
   };
 
   render();
